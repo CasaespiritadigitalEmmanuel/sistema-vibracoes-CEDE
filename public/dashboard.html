@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CEDE</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 25px; }
+        .header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px auto; }
+        .header h1 { color: #333; }
+        .btn-sair { background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h2 { color: #444; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background-color: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; display: block; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card .numero { font-size: 2.5em; font-weight: bold; color: #007bff; margin: 0; text-align: center; }
+        .card .legenda { font-size: 1.1em; color: #666; margin-top: 5px; text-align: center; }
+        .card .descricao { font-size: 0.9em; color: #777; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div id="main-content" style="display: none;">
+        <header class="header">
+            <h1>Dashboard</h1>
+            <button id="btn-sair" class="btn-sair">Sair</button>
+        </header>
+
+        <div class="container">
+            <h2>Resumo do Dia</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <p id="total-ativos" class="numero">...</p>
+                    <p class="legenda">Nomes Ativos Agora</p>
+                </div>
+                <div class="card">
+                    <p id="pedidos-hoje" class="numero">...</p>
+                    <p class="legenda">Novos Pedidos Hoje</p>
+                </div>
+            </div>
+
+            <h2>Ferramentas</h2>
+            <div class="cards-container">
+                <a href="/painel.html" class="card">
+                    <p class="legenda">Painel de Vibrações</p>
+                    <p class="descricao">Acesse a tela que exibe os nomes em tempo real para o trabalho de vibrações.</p>
+                </a>
+                <a href="/estatisticas.html" class="card">
+                    <p class="legenda">Estatísticas</p>
+                    <p class="descricao">Veja os números, gráficos e a evolução do trabalho de vibrações.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { protegerPagina, fazerLogout } from '/auth.js';
+
+        protegerPagina()
+            .then(user => {
+                // Se o usuário está autenticado, mostra o conteúdo e carrega os dados
+                document.getElementById('main-content').style.display = 'block';
+                carregarDadosDashboard();
+
+                document.getElementById('btn-sair').addEventListener('click', () => {
+                    fazerLogout().then(() => {
+                        window.location.href = '/login.html';
+                    });
+                });
+            })
+            .catch(error => {
+                console.error("Falha na proteção da página:", error);
+                // A função protegerPagina já redireciona, mas um log de erro é bom.
+            });
+
+        async function carregarDadosDashboard() {
+            try {
+                // A inicialização do Firestore é feita no auth.js, então não precisamos repetir
+                const db = getFirestore();
+                const docRef = doc(db, "estatisticas", "resumo");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const dados = docSnap.data();
+                    document.getElementById('total-ativos').textContent = dados.totalAtivos || 0;
+                    document.getElementById('pedidos-hoje').textContent = dados.pedidosHoje || 0;
+                } else {
+                    document.getElementById('total-ativos').textContent = "N/A";
+                    document.getElementById('pedidos-hoje').textContent = "N/A";
+                }
+            } catch (error) {
+                console.error("Erro ao carregar dados do dashboard:", error);
+            }
+        }
+    </script>
+</body>
+</html>
