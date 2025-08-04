@@ -3,7 +3,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-// COLE AQUI A SUA CONFIGURAÇÃO DO FIREBASE
+// SUAS CHAVES DE CONFIGURAÇÃO DO FIREBASE (JÁ DEVEM ESTAR CORRETAS)
 const firebaseConfig = {
   apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
   authDomain: "vibracoes-cede.firebaseapp.com",
@@ -22,20 +22,15 @@ const auth = getAuth(app);
  * Retorna uma promessa que resolve com os dados do usuário se ele estiver logado.
  */
 export function protegerPagina() {
-    console.log("1. Função 'protegerPagina' foi chamada."); // Linha de diagnóstico
     return new Promise((resolve, reject) => {
+        // O unsubscribe garante que o listener não seja chamado múltiplas vezes desnecessariamente
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log("2. 'onAuthStateChanged' respondeu. O usuário é:", user); // Linha de diagnóstico
-
-            unsubscribe(); // Impede que a função seja chamada múltiplas vezes
-
+            unsubscribe(); // Remove o listener após a primeira verificação
             if (user) {
                 // Usuário está logado, permite o acesso à página.
-                console.log("3. Usuário encontrado. Resolvendo a promessa.");
                 resolve(user);
             } else {
                 // Usuário não está logado, redireciona para o login.
-                console.log("4. Usuário NÃO encontrado. Redirecionando para /login.html");
                 window.location.href = '/login.html';
                 reject('Usuário não autenticado');
             }
