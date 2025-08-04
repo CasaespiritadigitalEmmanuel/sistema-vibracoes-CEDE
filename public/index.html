@@ -96,7 +96,9 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-        // COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
+        // ===================================================================
+        //      COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
+        // ===================================================================
         const firebaseConfig = {
   apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
   authDomain: "vibracoes-cede.firebaseapp.com",
@@ -105,9 +107,10 @@
   messagingSenderId: "1081610853181",
   appId: "1:1081610853181:web:b10eb65f1506d141684354"
 };
+        // ===================================================================
 
-        initializeApp(firebaseConfig);
-        const db = getFirestore();
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         // Variáveis do Formulário
         const form = document.getElementById('form-pedido');
@@ -129,10 +132,31 @@
         openModalBtn.addEventListener('click', () => modal.classList.add('visible'));
         closeModalBtn.addEventListener('click', () => modal.classList.remove('visible'));
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) { // Fecha só se clicar no fundo cinza
+            if (e.target === modal) {
                 modal.classList.remove('visible');
             }
         });
+
+        // Lógica de cálculo do ciclo de arquivamento
+        function calcularDataArquivamento() {
+            const agora = new Date();
+            const agoraSP = new Date(agora.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
+            const proximaQuinta = new Date(agoraSP);
+            const diaDaSemana = proximaQuinta.getDay(); // 0=Domingo, 4=Quinta
+            
+            let diasAteProximaQuinta = (4 - diaDaSemana + 7) % 7;
+            
+            if (diasAteProximaQuinta === 0 && (agoraSP.getHours() > 19 || (agoraSP.getHours() === 19 && agoraSP.getMinutes() > 20))) {
+                diasAteProximaQuinta = 7;
+            }
+
+            proximaQuinta.setDate(proximaQuinta.getDate() + diasAteProximaQuinta);
+            
+            const dataArquivamento = new Date(proximaQuinta);
+            dataArquivamento.setDate(dataArquivamento.getDate() + 21); // 3 semanas após a primeira vibração
+            
+            return dataArquivamento;
+        }
 
         // Lógica do Formulário
         radiosTipo.forEach(radio => {
@@ -153,24 +177,40 @@
             btnEnviar.disabled = true;
             btnEnviar.textContent = 'Enviando...';
             feedbackDiv.style.display = 'none';
+
             const nome = nomeInput.value.trim();
             const tipo = document.querySelector('input[name="tipo"]:checked').value;
             const endereco = enderecoInput.value.trim();
+
             if (!nome) {
                 alert("O nome é obrigatório.");
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
                 return;
             }
+
             try {
-                const dados = { nome: nome, status: 'ativo', dataPedido: serverTimestamp() };
-                if (tipo === 'encarnados' && endereco) { dados.endereco = endereco; }
+                const dataDeArquivamento = calcularDataArquivamento();
+
+                const dados = {
+                    nome: nome,
+                    status: 'ativo',
+                    dataPedido: serverTimestamp(),
+                    dataArquivamento: dataDeArquivamento
+                };
+
+                if (tipo === 'encarnados' && endereco) {
+                    dados.endereco = endereco;
+                }
+
                 await addDoc(collection(db, tipo), dados);
+                
                 feedbackDiv.className = 'success';
                 feedbackDiv.textContent = 'Seu pedido foi enviado com sucesso!';
                 form.reset();
                 camposFormulario.classList.add('hidden');
                 btnEnviar.textContent = 'Selecione uma opção';
+
             } catch (error) {
                 console.error("Erro ao enviar pedido: ", error);
                 feedbackDiv.className = 'error';
