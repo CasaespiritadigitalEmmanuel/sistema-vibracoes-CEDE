@@ -3,67 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido de Vibrações</title>
+    <title>Pedido de Vibrações - CEDE</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background-color: white; padding: 30px 40px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 500px; }
-        h1 { font-size: 1.8em; color: #333; margin-bottom: 0.5em; }
-        p { color: #666; margin-bottom: 2em; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f7f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { background-color: white; padding: 40px 50px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; width: 100%; max-width: 600px; border-top: 5px solid #6fbf73; }
+        .logo { width: 80px; height: auto; margin-bottom: 20px; }
+        h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 0.5em; font-weight: 600; }
+        h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
+        h3 { font-size: 1em; color: #333; margin-top: 0; margin-bottom: 2em; font-weight: normal; }
+        .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; }
+        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 10px; border-radius: 4px; text-align: left; color: #5d4037; }
+        .sugestao { text-align: left; margin-bottom: 30px; color: #555; font-size: 0.95em; }
+        .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
+        .radio-options input[type="radio"] { display: none; }
+        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 500; color: #555; }
+        .radio-visual { width: 80px; height: 80px; border-radius: 50%; background-color: #f0f0f0; border: 2px solid #ccc; margin-bottom: 10px; transition: all 0.2s ease-in-out; }
+        .radio-options input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.05); }
         .form-group { text-align: left; margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
         .form-group input[type="text"] { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1em; }
-        .radio-group { display: flex; gap: 20px; margin-bottom: 20px; }
-        .radio-group label { display: flex; align-items: center; gap: 8px; font-weight: normal; }
-        button { width: 100%; padding: 15px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
-        button:hover { background-color: #0056b3; }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #555; margin-bottom: 25px; }
+        .privacy-policy input[type="checkbox"] { margin-top: 3px; }
+        .privacy-policy a { color: #007bff; }
+        .privacy-policy .required-notice { color: #d32f2f; font-weight: bold; font-size: 0.9em; }
+        button { width: 100%; padding: 15px; background-color: #388e3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
+        button:disabled { background-color: #bdbdbd; color: #757575; cursor: not-allowed; }
         #feedback { margin-top: 20px; font-weight: bold; padding: 10px; border-radius: 6px; display: none; }
         #feedback.success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block; }
         #feedback.error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block; }
+        
+        /* ESTILOS DO POP-UP (MODAL) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-overlay.visible { display: flex; }
+        .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; color: #333; }
+        .modal-content h2 { margin-top: 0; color: #2E7D32; }
+        .modal-content p { line-height: 1.6; }
+        .modal-actions { text-align: right; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Pedido de Vibrações</h1>
-        <p>Por favor, preencha os dados abaixo para incluir um nome em nossas vibrações.</p>
+        <img src="/logo-cede.jpg" alt="Logo CEDE" class="logo">
+        
+        <h1>CASA ESPÍRITA DIGITAL EMMANUEL - CEDE</h1>
+        <h2>Trabalho de Vibrações</h2>
+        <h3>As Vibrações Acontecem Todas as Quintas-feiras às 19:30.</h3>
+
+        <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
+
+        <div class="aviso-atencao">
+            <strong>Atenção:</strong> Cada pedido enviado participa dos trabalhos de vibração por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome dentro deste período.</strong>
+        </div>
+        <p class="sugestao">
+            <strong>Sugerimos:</strong> Para fortalecer a corrente de vibrações, junte-se a nós em oração de onde estiver, todas as quintas-feiras às 19:30, durante as próximas 4 semanas.
+        </p>
         
         <form id="form-pedido">
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" required>
+            <div class="radio-options">
+                <input type="radio" id="tipo-encarnado" name="tipo" value="encarnados">
+                <label for="tipo-encarnado"><div class="radio-visual"></div>Encarnado</label>
+                <input type="radio" id="tipo-desencarnado" name="tipo" value="desencarnados">
+                <label for="tipo-desencarnado"><div class="radio-visual"></div>Desencarnado</label>
             </div>
             
-            <div class="form-group">
-                <label>O pedido é para:</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="tipo" value="encarnados" checked>
-                        Encarnado(a)
-                    </label>
-                    <label>
-                        <input type="radio" name="tipo" value="desencarnados">
-                        Desencarnado(a)
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group" id="group-endereco">
-                <label for="endereco">Endereço (Opcional, apenas para encarnados)</label>
-                <input type="text" id="endereco" placeholder="Ex: Rua, Número, Bairro, Cidade">
+            <div id="campos-formulario" class="hidden">
+                <div class="form-group"><label for="nome">Nome Completo</label><input type="text" id="nome" required></div>
+                <div class="form-group" id="group-endereco"><label for="endereco">Endereço (Opcional, apenas para encarnados)</label><input type="text" id="endereco" placeholder="Ex: Rua, Número, Bairro, Cidade"></div>
             </div>
             
-            <button type="submit" id="btn-enviar">Enviar Pedido</button>
+            <div class="privacy-policy">
+                <input type="checkbox" id="politica-privacidade" required>
+                <label for="politica-privacidade">Ao informar os dados, eu concordo com a Política de Privacidade da Casa Espírita. Leia nossa <a href="/politica.html" target="_blank">Política de Privacidade</a>.<div class="required-notice">*Necessário para prosseguir.</div></label>
+            </div>
+            
+            <button type="submit" id="btn-enviar" disabled>Selecione uma opção</button>
         </form>
         <div id="feedback"></div>
+    </div>
+
+    <div id="modal-explicacao" class="modal-overlay">
+        <div class="modal-content">
+            <h2>O que é o Trabalho de Vibração?</h2>
+            <p>O trabalho de vibrações é uma atividade de doação de energias positivas e salutares, realizadas por uma equipe dedicada de trabalhadores da casa espírita. Através da prece e da concentração, enviamos pensamentos e sentimentos de paz, harmonia, saúde e equilíbrio para as pessoas e espíritos cujos nomes são enviados.</p>
+            <p>Não se trata de um passe a distância, mas sim de uma irradiação de amor fraterno, visando auxiliar no reequilíbrio energético e amparar em momentos de dificuldade. É um ato de caridade anônimo, baseado na força da prece coletiva.</p>
+            <div class="modal-actions">
+                <button id="close-modal-explicacao">Fechar</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-        // ===================================================================
-        //      COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
-        // ===================================================================
+        // COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
         const firebaseConfig = {
   apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
   authDomain: "vibracoes-cede.firebaseapp.com",
@@ -72,67 +105,78 @@
   messagingSenderId: "1081610853181",
   appId: "1:1081610853181:web:b10eb65f1506d141684354"
 };
-        // ===================================================================
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        initializeApp(firebaseConfig);
+        const db = getFirestore();
 
+        // Variáveis do Formulário
         const form = document.getElementById('form-pedido');
         const nomeInput = document.getElementById('nome');
         const enderecoInput = document.getElementById('endereco');
         const groupEndereco = document.getElementById('group-endereco');
+        const camposFormulario = document.getElementById('campos-formulario');
         const btnEnviar = document.getElementById('btn-enviar');
         const feedbackDiv = document.getElementById('feedback');
         const radiosTipo = document.querySelectorAll('input[name="tipo"]');
+        const privacidadeCheckbox = document.getElementById('politica-privacidade');
 
+        // Variáveis do Modal
+        const openModalBtn = document.getElementById('open-modal-explicacao');
+        const closeModalBtn = document.getElementById('close-modal-explicacao');
+        const modal = document.getElementById('modal-explicacao');
+        
+        // Lógica do Modal
+        openModalBtn.addEventListener('click', () => modal.classList.add('visible'));
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('visible'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) { // Fecha só se clicar no fundo cinza
+                modal.classList.remove('visible');
+            }
+        });
+
+        // Lógica do Formulário
         radiosTipo.forEach(radio => {
             radio.addEventListener('change', (e) => {
+                camposFormulario.classList.remove('hidden');
+                btnEnviar.disabled = false;
+                btnEnviar.textContent = 'Enviar Pedido';
                 groupEndereco.style.display = e.target.value === 'encarnados' ? 'block' : 'none';
             });
         });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!privacidadeCheckbox.checked) {
+                alert("Você precisa concordar com a Política de Privacidade para continuar.");
+                return;
+            }
             btnEnviar.disabled = true;
             btnEnviar.textContent = 'Enviando...';
             feedbackDiv.style.display = 'none';
-
             const nome = nomeInput.value.trim();
             const tipo = document.querySelector('input[name="tipo"]:checked').value;
             const endereco = enderecoInput.value.trim();
-
             if (!nome) {
                 alert("O nome é obrigatório.");
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
                 return;
             }
-
             try {
-                const dados = {
-                    nome: nome,
-                    status: 'ativo',
-                    dataPedido: serverTimestamp()
-                };
-
-                if (tipo === 'encarnados' && endereco) {
-                    dados.endereco = endereco;
-                }
-
+                const dados = { nome: nome, status: 'ativo', dataPedido: serverTimestamp() };
+                if (tipo === 'encarnados' && endereco) { dados.endereco = endereco; }
                 await addDoc(collection(db, tipo), dados);
-                
                 feedbackDiv.className = 'success';
                 feedbackDiv.textContent = 'Seu pedido foi enviado com sucesso!';
                 form.reset();
-                groupEndereco.style.display = 'block'; // Volta ao padrão
-
+                camposFormulario.classList.add('hidden');
+                btnEnviar.textContent = 'Selecione uma opção';
             } catch (error) {
                 console.error("Erro ao enviar pedido: ", error);
                 feedbackDiv.className = 'error';
                 feedbackDiv.textContent = 'Ocorreu um erro. Tente novamente.';
             } finally {
-                btnEnviar.disabled = false;
-                btnEnviar.textContent = 'Enviar Pedido';
+                btnEnviar.disabled = true;
             }
         });
     </script>
