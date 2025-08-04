@@ -94,7 +94,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
         // ===================================================================
         //      COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
@@ -110,7 +110,8 @@
         // ===================================================================
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const functions = getFunctions(app, 'southamerica-east1');
+        const enviarPedidoVibracao = httpsCallable(functions, 'enviarPedidoVibracao');
 
         // Variáveis do Formulário
         const form = document.getElementById('form-pedido');
@@ -137,27 +138,6 @@
             }
         });
 
-        // Lógica de cálculo do ciclo de arquivamento
-        function calcularDataArquivamento() {
-            const agora = new Date();
-            const agoraSP = new Date(agora.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
-            const proximaQuinta = new Date(agoraSP);
-            const diaDaSemana = proximaQuinta.getDay(); // 0=Domingo, 4=Quinta
-            
-            let diasAteProximaQuinta = (4 - diaDaSemana + 7) % 7;
-            
-            if (diasAteProximaQuinta === 0 && (agoraSP.getHours() > 19 || (agoraSP.getHours() === 19 && agoraSP.getMinutes() > 20))) {
-                diasAteProximaQuinta = 7;
-            }
-
-            proximaQuinta.setDate(proximaQuinta.getDate() + diasAteProximaQuinta);
-            
-            const dataArquivamento = new Date(proximaQuinta);
-            dataArquivamento.setDate(dataArquivamento.getDate() + 21); // 3 semanas após a primeira vibração
-            
-            return dataArquivamento;
-        }
-
         // Lógica do Formulário
         radiosTipo.forEach(radio => {
             radio.addEventListener('change', (e) => {
@@ -168,6 +148,7 @@
             });
         });
 
+        // Evento de submit que agora chama a função de backend
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!privacidadeCheckbox.checked) {
@@ -179,44 +160,38 @@
             feedbackDiv.style.display = 'none';
 
             const nome = nomeInput.value.trim();
-            const tipo = document.querySelector('input[name="tipo"]:checked').value;
+            const tipoSelecionado = document.querySelector('input[name="tipo"]:checked');
             const endereco = enderecoInput.value.trim();
 
-            if (!nome) {
-                alert("O nome é obrigatório.");
+            if (!nome || !tipoSelecionado) {
+                alert("O nome e a seleção de tipo são obrigatórios.");
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
                 return;
             }
 
+            const dadosParaEnviar = {
+                nome: nome,
+                tipo: tipoSelecionado.value === 'encarnados' ? 'encarnado' : 'desencarnado',
+                endereco: endereco
+            };
+
             try {
-                const dataDeArquivamento = calcularDataArquivamento();
-
-                const dados = {
-                    nome: nome,
-                    status: 'ativo',
-                    dataPedido: serverTimestamp(),
-                    dataArquivamento: dataDeArquivamento
-                };
-
-                if (tipo === 'encarnados' && endereco) {
-                    dados.endereco = endereco;
-                }
-
-                await addDoc(collection(db, tipo), dados);
+                const result = await enviarPedidoVibracao(dadosParaEnviar);
                 
                 feedbackDiv.className = 'success';
-                feedbackDiv.textContent = 'Seu pedido foi enviado com sucesso!';
+                feedbackDiv.textContent = result.data.message; // Usa a mensagem de retorno do backend
                 form.reset();
                 camposFormulario.classList.add('hidden');
                 btnEnviar.textContent = 'Selecione uma opção';
 
             } catch (error) {
-                console.error("Erro ao enviar pedido: ", error);
+                console.error("Erro ao chamar a função de backend: ", error);
                 feedbackDiv.className = 'error';
-                feedbackDiv.textContent = 'Ocorreu um erro. Tente novamente.';
+                feedbackDiv.textContent = 'Ocorreu um erro ao enviar seu pedido. Tente novamente.';
             } finally {
-                btnEnviar.disabled = true;
+                // Mantém o botão desabilitado até uma nova seleção
+                btnEnviar.disabled = true; 
             }
         });
     </script>
