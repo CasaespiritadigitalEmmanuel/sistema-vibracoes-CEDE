@@ -22,14 +22,20 @@ const auth = getAuth(app);
  * Retorna uma promessa que resolve com os dados do usuário se ele estiver logado.
  */
 export function protegerPagina() {
+    console.log("1. Função 'protegerPagina' foi chamada."); // Linha de diagnóstico
     return new Promise((resolve, reject) => {
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log("2. 'onAuthStateChanged' respondeu. O usuário é:", user); // Linha de diagnóstico
+
+            unsubscribe(); // Impede que a função seja chamada múltiplas vezes
+
             if (user) {
                 // Usuário está logado, permite o acesso à página.
+                console.log("3. Usuário encontrado. Resolvendo a promessa.");
                 resolve(user);
             } else {
                 // Usuário não está logado, redireciona para o login.
-                console.log("Usuário não autenticado. Redirecionando para /login.html");
+                console.log("4. Usuário NÃO encontrado. Redirecionando para /login.html");
                 window.location.href = '/login.html';
                 reject('Usuário não autenticado');
             }
