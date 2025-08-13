@@ -1,0 +1,10 @@
+{
+  "name": "functions",
+  "description": "Robôs para o Sistema de Vibrações",
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1"
+  },
+  "private": true
+}
