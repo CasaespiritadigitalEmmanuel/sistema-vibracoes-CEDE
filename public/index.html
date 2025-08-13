@@ -5,9 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Vibrações - 48ª EAE Online</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f7f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .container { background-color: white; padding: 40px 50px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; width: 100%; max-width: 600px; border-top: 5px solid #6fbf73; }
-        .logo { width: 80px; height: auto; margin-bottom: 20px; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            
+            /* --- INÍCIO DAS ALTERAÇÕES DO FUNDO --- */
+            
+            /* Cor de fundo que aparece enquanto a imagem carrega */
+            background-color: #f0f7f0; 
+
+            /* Caminho para a sua imagem de fundo .png */
+            background-image: url('/fundo.png'); 
+            
+            /* Faz a imagem cobrir toda a tela, sem distorcer */
+            background-size: cover; 
+            
+            /* Centraliza a imagem na tela */
+            background-position: center center; 
+            
+            /* Impede que a imagem se repita */
+            background-repeat: no-repeat; 
+            
+            /* Deixa a imagem de fundo fixa enquanto a página rola */
+            background-attachment: fixed; 
+            
+            /* --- FIM DAS ALTERAÇÕES DO FUNDO --- */
+
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px; 
+            box-sizing: border-box;
+        }
+        .container { 
+            background-color: white; 
+            padding: 40px 50px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            text-align: center; 
+            width: 100%; 
+            max-width: 600px;
+            border-top: 5px solid #6fbf73;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
         h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 0.5em; font-weight: 600; }
         h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
         h3 { font-size: 1em; color: #333; margin-top: 0; margin-bottom: 2em; font-weight: normal; }
@@ -73,7 +118,7 @@
             
             <div class="privacy-policy">
                 <input type="checkbox" id="politica-privacidade" required>
-                <label for="politica-privacidade">Ao informar os dados, eu concordo com a Política de Privacidade da 48ª EAE Online. Leia nossa <a href="/politica.html" target="_blank">Política de Privacidade</a>.<div class="required-notice">*Necessário para prosseguir.</div></label>
+                <label for="politica-privacidade">Ao informar os dados, eu concordo com a Política de Privacidade da Escola. Leia nossa <a href="/politica.html" target="_blank">Política de Privacidade</a>.<div class="required-notice">*Necessário para prosseguir.</div></label>
             </div>
             
             <button type="submit" id="btn-enviar" disabled>Selecione uma opção</button>
@@ -180,7 +225,7 @@
                 const result = await enviarPedidoVibracao(dadosParaEnviar);
                 
                 feedbackDiv.className = 'success';
-                feedbackDiv.textContent = result.data.message; // Usa a mensagem de retorno do backend
+                feedbackDiv.textContent = result.data.message;
                 form.reset();
                 camposFormulario.classList.add('hidden');
                 btnEnviar.textContent = 'Selecione uma opção';
@@ -190,10 +235,22 @@
                 feedbackDiv.className = 'error';
                 feedbackDiv.textContent = 'Ocorreu um erro ao enviar seu pedido. Tente novamente.';
             } finally {
-                // Mantém o botão desabilitado até uma nova seleção
                 btnEnviar.disabled = true; 
             }
         });
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
