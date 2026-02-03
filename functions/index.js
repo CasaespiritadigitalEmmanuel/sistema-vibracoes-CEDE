@@ -183,7 +183,7 @@ exports.calcularEstatisticasDiarias = functions.region(REGIAO).pubsub
             pedidosPorMes: pedidosPorMes,
             ultimaAtualizacao: admin.firestore.FieldValue.serverTimestamp()
         };
-
+// Versão corrigida das coleções
         // Salva o resumo em um único documento
         await db.collection('estatisticas').doc('resumo').set(statsData);
         console.log("Estatísticas diárias salvas com sucesso.", statsData);
