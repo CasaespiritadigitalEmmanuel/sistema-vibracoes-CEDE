@@ -104,7 +104,11 @@ exports.enviarPedidoVibracao = functions.region(REGIAO).https.onCall(async (data
     }
     
     const { dataArquivamento } = calcularCicloVibracoes(agoraSP);
-    const colecaoAlvo = tipo === 'encarnados' ? 'encarnados' : 'desencarnados';
+    
+    // --- CORREÇÃO AQUI ---
+    // Verifica se o tipo é exatamente uma das coleções válidas (no plural).
+    // Se não for, usa 'desencarnados' como padrão de segurança.
+    const colecaoAlvo = (tipo === 'encarnados' || tipo === 'desencarnados') ? tipo : 'desencarnados';
 
     const dadosParaSalvar = {
         nome: nome.trim(),
@@ -113,7 +117,8 @@ exports.enviarPedidoVibracao = functions.region(REGIAO).https.onCall(async (data
         dataArquivamento: dataArquivamento
     };
 
-    if (tipo === 'encarnados' && endereco) {
+    // Apenas adiciona o endereço se for para encarnados
+    if (colecaoAlvo === 'encarnados' && endereco) {
         dadosParaSalvar.endereco = endereco.trim();
     }
 

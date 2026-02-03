@@ -48,11 +48,7 @@
             max-width: 600px;
             border-top: 5px solid #6fbf73;
         }
-        .logo {
-            width: 80px;
-            height: auto;
-            margin-bottom: 20px;
-        }
+        /* A classe .logo foi removida pois a imagem foi retirada */
         h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 0.5em; font-weight: 600; }
         h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
         h3 { font-size: 1em; color: #333; margin-top: 0; margin-bottom: 2em; font-weight: normal; }
@@ -88,9 +84,6 @@
 </head>
 <body>
     <div class="container">
-        <img src="/logo-eae.png" alt="Logo 48ª EAE Online" class="logo">
-        
-    <title>Pedido de Vibrações - 48ª EAE Online/Projeto EAE/FDJ</title>
         <h1>48ª Escola de Aprendizes do Evangelho Online/Projeto EAE/FDJ</h1>
         <h2>Trabalho de Vibrações</h2>
         <h3>As Vibrações Acontecem Todas as Quintas-feiras às 19:30.</h3>
@@ -146,13 +139,13 @@
         //      COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
         // ===================================================================
         const firebaseConfig = {
-  apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
-  authDomain: "vibracoes-cede.firebaseapp.com",
-  projectId: "vibracoes-cede",
-  storageBucket: "vibracoes-cede.firebasestorage.app",
-  messagingSenderId: "1081610853181",
-  appId: "1:1081610853181:web:b10eb65f1506d141684354"
-};
+            apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
+            authDomain: "vibracoes-cede.firebaseapp.com",
+            projectId: "vibracoes-cede",
+            storageBucket: "vibracoes-cede.firebasestorage.app",
+            messagingSenderId: "1081610853181",
+            appId: "1:1081610853181:web:b10eb65f1506d141684354"
+        };
         // ===================================================================
 
         const app = initializeApp(firebaseConfig);
@@ -216,9 +209,11 @@
                 return;
             }
 
+            // --- CORREÇÃO AQUI ---
+            // Agora enviamos o valor direto do botão de rádio ("encarnados" ou "desencarnados")
             const dadosParaEnviar = {
                 nome: nome,
-                tipo: tipoSelecionado.value === 'encarnados' ? 'encarnado' : 'desencarnado',
+                tipo: tipoSelecionado.value, 
                 endereco: endereco
             };
 
@@ -230,6 +225,7 @@
                 form.reset();
                 camposFormulario.classList.add('hidden');
                 btnEnviar.textContent = 'Selecione uma opção';
+                groupEndereco.style.display = 'none'; // Garante que o campo endereço suma após o envio
 
             } catch (error) {
                 console.error("Erro ao chamar a função de backend: ", error);
@@ -242,16 +238,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
