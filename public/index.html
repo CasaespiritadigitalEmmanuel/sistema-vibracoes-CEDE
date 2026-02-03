@@ -8,7 +8,6 @@
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
-            /* Estética original do fundo configurada por você */
             background-image: url('/fundo.png'); 
             background-size: contain; 
             background-position: center center; 
@@ -23,7 +22,6 @@
             box-sizing: border-box;
         }
         .container { 
-            /* Mantém a transparência do container conforme image_e07165.png */
             background-color: rgba(255, 255, 255, 0.9); 
             padding: 40px 50px; 
             border-radius: 8px; 
@@ -43,7 +41,7 @@
         
         .sugestao { text-align: left; margin-bottom: 30px; color: #555; font-size: 0.95em; }
 
-        /* Estética dos botões de rádio circulares conforme image_e07165.png */
+        /* Estética dos botões de rádio circulares conforme sua imagem */
         .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
         .radio-options input[type="radio"] { display: none; }
         .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 500; color: #555; }
@@ -56,23 +54,26 @@
         
         .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #555; margin-bottom: 25px; }
         .privacy-policy input[type="checkbox"] { margin-top: 3px; }
+        .privacy-policy a { color: #007bff; text-decoration: none; }
         
         button { width: 100%; padding: 15px; background-color: #388e3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
 
-        /* Estilos da Mensagem de Confirmação */
-        #container-sucesso { display: none; padding: 20px; }
+        /* Estilos da Mensagem de Confirmação Final */
+        #container-sucesso { display: none; padding: 20px; animation: fadeIn 0.5s; }
         #container-sucesso h2 { color: #2e7d32; font-size: 1.8em; margin-bottom: 15px; }
         #container-sucesso p { color: #555; line-height: 1.6; margin-bottom: 25px; }
         .btn-novo-pedido { background-color: #007bff; max-width: 250px; margin: 0 auto; }
 
-        /* Estilos do Modal */
+        /* Estilos do Modal de Explicação */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .modal-overlay.visible { display: flex; }
         .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; color: #333; text-align: left; }
         .modal-content h2 { margin-top: 0; color: #2E7D32; }
         .modal-actions { text-align: right; margin-top: 20px; }
         .hidden { display: none; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -85,11 +86,11 @@
             <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
 
             <div class="aviso-atencao">
-                <strong>Atenção:</strong> Cada pedido enviado participa dos trabalhos de vibração por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
+                <strong>Atenção:</strong> Cada pedido enviado participa por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
             </div>
             
             <p class="sugestao">
-                <strong>Sugerimos:</strong> Para fortalecer a corrente de vibrações, junte-se a nós em oração de onde estiver, todas as quintas-feiras às 19:30.
+                <strong>Sugerimos:</strong> Una-se a nós em oração todas as quintas às 19:30.
             </p>
             
             <form id="form-pedido">
@@ -113,7 +114,7 @@
                     <div class="privacy-policy">
                         <input type="checkbox" id="politica-privacidade" required>
                         <label for="politica-privacidade">
-                            Concordo com a <a href="/politica.html" target="_blank">Política de Privacidade</a> da Escola.
+                            Concordo com a <a href="/politica.html" target="_blank">Política de Privacidade</a>.
                         </label>
                     </div>
                     
@@ -124,7 +125,7 @@
 
         <div id="container-sucesso">
             <h2>🙏 Pedido enviado com sucesso!</h2>
-            <p>O nome foi incluído em nossas listas de vibração e irradiação espiritual para o ciclo das próximas 4 semanas.</p>
+            <p>O nome foi incluído em nossas listas e receberá as irradiações espirituais nas próximas 4 quintas-feiras.</p>
             <button class="btn-novo-pedido" onclick="resetarFormulario()">Enviar outro nome</button>
         </div>
     </div>
@@ -132,9 +133,9 @@
     <div id="modal-explicacao" class="modal-overlay">
         <div class="modal-content">
             <h2>O que é o Trabalho de Vibração?</h2>
-            <p>É uma atividade de doação de energias positivas e salutares, realizadas por uma equipe dedicada de trabalhadores da casa espírita através da prece coletiva.</p>
+            <p>É uma atividade de doação de energias positivas através da prece coletiva, visando o amparo e o reequilíbrio energético daqueles que necessitam.</p>
             <div class="modal-actions">
-                <button id="close-modal-explicacao">Fechar</button>
+                <button id="close-modal-explicacao" style="width: auto; padding: 10px 30px;">Fechar</button>
             </div>
         </div>
     </div>
@@ -169,7 +170,7 @@
         document.getElementById('open-modal-explicacao').onclick = () => modal.classList.add('visible');
         document.getElementById('close-modal-explicacao').onclick = () => modal.classList.remove('visible');
 
-        // Troca de campos conforme seleção
+        // Lógica de Exibição de Campos
         radiosTipo.forEach(radio => {
             radio.onchange = (e) => {
                 camposForm.classList.remove('hidden');
@@ -177,7 +178,7 @@
             };
         });
 
-        // Envio e exibição da mensagem de sucesso
+        // Envio do Formulário com Trigger da Mensagem de Sucesso
         form.onsubmit = async (e) => {
             e.preventDefault();
             btnEnviar.disabled = true;
@@ -190,24 +191,30 @@
             };
 
             try {
+                // Chamada oficial ao robô no Google Cloud
                 await enviarPedidoVibracao(dados);
+                
+                // MUDANÇA VISUAL: Esconde formulário e mostra mensagem de sucesso
                 blocoForm.style.display = 'none';
                 blocoSucesso.style.display = 'block';
+                window.scrollTo(0, 0); 
+
             } catch (error) {
-                console.error(error);
-                alert("Erro ao enviar. Tente novamente.");
+                console.error("Erro no envio:", error);
+                alert("Erro ao enviar pedido. Detalhes: " + error.message);
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
             }
         };
 
-        // Função para novo pedido
+        // Função para voltar ao estado inicial (enviar novo nome)
         window.resetarFormulario = () => {
             form.reset();
             camposForm.classList.add('hidden');
             blocoSucesso.style.display = 'none';
             blocoForm.style.display = 'block';
             btnEnviar.disabled = false;
+            btnEnviar.textContent = 'Enviar Pedido';
         };
     </script>
 </body>
