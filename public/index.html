@@ -7,29 +7,12 @@
     <style>
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            
-            /* --- INÍCIO DAS ALTERAÇÕES DO FUNDO --- */
-            
-            /* Cor de fundo que aparece enquanto a imagem carrega */
             background-color: #f0f7f0; 
-
-            /* Caminho para a sua imagem de fundo .png */
             background-image: url('/fundo.png'); 
-            
-            /* Faz a imagem cobrir toda a tela, sem distorcer */
             background-size: contain; 
-            
-            /* Centraliza a imagem na tela */
             background-position: center center; 
-            
-            /* Impede que a imagem se repita */
             background-repeat: no-repeat; 
-            
-            /* Deixa a imagem de fundo fixa enquanto a página rola */
             background-attachment: fixed; 
-            
-            /* --- FIM DAS ALTERAÇÕES DO FUNDO --- */
-
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -39,21 +22,20 @@
             box-sizing: border-box;
         }
         .container { 
-            background-color: transparent; 
+            background-color: rgba(255, 255, 255, 0.95); 
             padding: 40px 50px; 
             border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             text-align: center; 
             width: 100%; 
             max-width: 600px;
             border-top: 5px solid #6fbf73;
         }
-        /* A classe .logo foi removida pois a imagem foi retirada */
         h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 0.5em; font-weight: 600; }
         h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
         h3 { font-size: 1em; color: #333; margin-top: 0; margin-bottom: 2em; font-weight: normal; }
         .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; }
-        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 10px; border-radius: 4px; text-align: left; color: #5d4037; }
+        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 10px; border-radius: 4px; text-align: left; color: #5d4037; font-size: 0.9em; }
         .sugestao { text-align: left; margin-bottom: 30px; color: #555; font-size: 0.95em; }
         .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
         .radio-options input[type="radio"] { display: none; }
@@ -66,67 +48,84 @@
         .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #555; margin-bottom: 25px; }
         .privacy-policy input[type="checkbox"] { margin-top: 3px; }
         .privacy-policy a { color: #007bff; }
-        .privacy-policy .required-notice { color: #d32f2f; font-weight: bold; font-size: 0.9em; }
         button { width: 100%; padding: 15px; background-color: #388e3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
-        button:disabled { background-color: #bdbdbd; color: #757575; cursor: not-allowed; }
-        #feedback { margin-top: 20px; font-weight: bold; padding: 10px; border-radius: 6px; display: none; }
-        #feedback.success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block; }
-        #feedback.error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block; }
+        button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
         
-        /* ESTILOS DO POP-UP (MODAL) */
+        /* Estilos da Mensagem de Sucesso */
+        #container-sucesso { display: none; padding: 20px; }
+        #container-sucesso h2 { color: #2e7d32; font-size: 1.8em; margin-bottom: 15px; }
+        #container-sucesso p { color: #555; line-height: 1.6; margin-bottom: 25px; }
+        .btn-novo-pedido { background-color: #007bff; max-width: 250px; margin: 0 auto; }
+
+        /* Estilos do Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .modal-overlay.visible { display: flex; }
-        .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; color: #333; }
+        .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; color: #333; text-align: left; }
         .modal-content h2 { margin-top: 0; color: #2E7D32; }
-        .modal-content p { line-height: 1.6; }
         .modal-actions { text-align: right; margin-top: 20px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>48ª Escola de Aprendizes do Evangelho Online/Projeto EAE/FDJ</h1>
-        <h2>Trabalho de Vibrações</h2>
-        <h3>As Vibrações Acontecem Todas as Quintas-feiras às 19:30.</h3>
+        <div id="bloco-formulario">
+            <h1>48ª EAE Online/Projeto EAE/FDJ</h1>
+            <h2>Trabalho de Vibrações</h2>
+            <h3>As Vibrações Acontecem Todas as Quintas-feiras às 19:30.</h3>
 
-        <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
+            <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
 
-        <div class="aviso-atencao">
-            <strong>Atenção:</strong> Cada pedido enviado participa dos trabalhos de vibração por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome dentro deste período.</strong>
+            <div class="aviso-atencao">
+                <strong>Atenção:</strong> Cada pedido enviado participa por 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
+            </div>
+
+            <p class="sugestao">
+                Sugerimos unir-se a nós em oração todas as quintas às 19:30.
+            </p>
+            
+            <form id="form-pedido">
+                <div class="radio-options">
+                    <input type="radio" id="tipo-encarnado" name="tipo" value="encarnados">
+                    <label for="tipo-encarnado"><div class="radio-visual"></div>Encarnado</label>
+                    <input type="radio" id="tipo-desencarnado" name="tipo" value="desencarnados">
+                    <label for="tipo-desencarnado"><div class="radio-visual"></div>Desencarnado</label>
+                </div>
+                
+                <div id="campos-formulario" class="hidden">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" required>
+                    </div>
+                    <div class="form-group" id="group-endereco">
+                        <label for="endereco">Endereço (Cidade/Estado)</label>
+                        <input type="text" id="endereco" placeholder="Apenas para encarnados">
+                    </div>
+
+                    <div class="privacy-policy">
+                        <input type="checkbox" id="politica-privacidade" required>
+                        <label for="politica-privacidade">
+                            Concordo com a <a href="/politica.html" target="_blank">Política de Privacidade</a> da Escola.
+                        </label>
+                    </div>
+                    
+                    <button type="submit" id="btn-enviar">Enviar Pedido</button>
+                </div>
+            </form>
         </div>
-        <p class="sugestao">
-            <strong>Sugerimos:</strong> Para fortalecer a corrente de vibrações, junte-se a nós em oração de onde estiver, todas as quintas-feiras às 19:30, durante as próximas 4 semanas.
-        </p>
-        
-        <form id="form-pedido">
-            <div class="radio-options">
-                <input type="radio" id="tipo-encarnado" name="tipo" value="encarnados">
-                <label for="tipo-encarnado"><div class="radio-visual"></div>Encarnado</label>
-                <input type="radio" id="tipo-desencarnado" name="tipo" value="desencarnados">
-                <label for="tipo-desencarnado"><div class="radio-visual"></div>Desencarnado</label>
-            </div>
-            
-            <div id="campos-formulario" class="hidden">
-                <div class="form-group"><label for="nome">Nome Completo</label><input type="text" id="nome" required></div>
-                <div class="form-group" id="group-endereco"><label for="endereco">Endereço (Opcional, apenas para encarnados)</label><input type="text" id="endereco" placeholder="Ex: Rua, Número, Bairro, Cidade"></div>
-            </div>
-            
-            <div class="privacy-policy">
-                <input type="checkbox" id="politica-privacidade" required>
-                <label for="politica-privacidade">Ao informar os dados, eu concordo com a Política de Privacidade da Escola. Leia nossa <a href="/politica.html" target="_blank">Política de Privacidade</a>.<div class="required-notice">*Necessário para prosseguir.</div></label>
-            </div>
-            
-            <button type="submit" id="btn-enviar" disabled>Selecione uma opção</button>
-        </form>
-        <div id="feedback"></div>
+
+        <div id="container-sucesso">
+            <h2>🙏 Pedido enviado com sucesso!</h2>
+            <p>O nome foi incluído em nossas listas e receberá as vibrações espirituais durante as próximas 4 quintas-feiras.</p>
+            <button class="btn-novo-pedido" onclick="resetarFormulario()">Enviar outro nome</button>
+        </div>
     </div>
 
     <div id="modal-explicacao" class="modal-overlay">
         <div class="modal-content">
             <h2>O que é o Trabalho de Vibração?</h2>
-            <p>O trabalho de vibrações é uma atividade de doação de energias positivas e salutares, realizadas por uma equipe dedicada de trabalhadores da casa espírita. Através da prece e da concentração, enviamos pensamentos e sentimentos de paz, harmonia, saúde e equilíbrio para as pessoas e espíritos cujos nomes são enviados.</p>
-            <p>Não se trata de um passe a distância, mas sim de uma irradiação de amor fraterno, visando auxiliar no reequilíbrio energético e amparar em momentos de dificuldade. É um ato de caridade anônimo, baseado na força da prece coletiva.</p>
+            <p>É uma atividade de doação de energias positivas através da prece coletiva, visando o amparo e o equilíbrio daqueles que necessitam.</p>
             <div class="modal-actions">
-                <button id="close-modal-explicacao">Fechar</button>
+                <button id="close-modal-explicacao">Entendi</button>
             </div>
         </div>
     </div>
@@ -135,9 +134,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
-        // ===================================================================
-        //      COLE AQUI AS NOVAS CHAVES DE CONFIGURAÇÃO DO FIREBASE
-        // ===================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
             authDomain: "vibracoes-cede.firebaseapp.com",
@@ -146,95 +142,65 @@
             messagingSenderId: "1081610853181",
             appId: "1:1081610853181:web:b10eb65f1506d141684354"
         };
-        // ===================================================================
 
         const app = initializeApp(firebaseConfig);
         const functions = getFunctions(app, 'southamerica-east1');
         const enviarPedidoVibracao = httpsCallable(functions, 'enviarPedidoVibracao');
 
-        // Variáveis do Formulário
         const form = document.getElementById('form-pedido');
-        const nomeInput = document.getElementById('nome');
-        const enderecoInput = document.getElementById('endereco');
-        const groupEndereco = document.getElementById('group-endereco');
-        const camposFormulario = document.getElementById('campos-formulario');
+        const blocoForm = document.getElementById('bloco-formulario');
+        const blocoSucesso = document.getElementById('container-sucesso');
+        const camposForm = document.getElementById('campos-formulario');
         const btnEnviar = document.getElementById('btn-enviar');
-        const feedbackDiv = document.getElementById('feedback');
         const radiosTipo = document.querySelectorAll('input[name="tipo"]');
-        const privacidadeCheckbox = document.getElementById('politica-privacidade');
+        const groupEndereco = document.getElementById('group-endereco');
 
-        // Variáveis do Modal
-        const openModalBtn = document.getElementById('open-modal-explicacao');
-        const closeModalBtn = document.getElementById('close-modal-explicacao');
+        // Modal
         const modal = document.getElementById('modal-explicacao');
-        
-        // Lógica do Modal
-        openModalBtn.addEventListener('click', () => modal.classList.add('visible'));
-        closeModalBtn.addEventListener('click', () => modal.classList.remove('visible'));
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('visible');
-            }
-        });
+        document.getElementById('open-modal-explicacao').onclick = () => modal.classList.add('visible');
+        document.getElementById('close-modal-explicacao').onclick = () => modal.classList.remove('visible');
 
-        // Lógica do Formulário
+        // Lógica de Troca de Campos
         radiosTipo.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                camposFormulario.classList.remove('hidden');
-                btnEnviar.disabled = false;
-                btnEnviar.textContent = 'Enviar Pedido';
+            radio.onchange = (e) => {
+                camposForm.classList.remove('hidden');
                 groupEndereco.style.display = e.target.value === 'encarnados' ? 'block' : 'none';
-            });
+            };
         });
 
-        // Evento de submit que agora chama a função de backend
-        form.addEventListener('submit', async (e) => {
+        // Envio do Pedido
+        form.onsubmit = async (e) => {
             e.preventDefault();
-            if (!privacidadeCheckbox.checked) {
-                alert("Você precisa concordar com a Política de Privacidade para continuar.");
-                return;
-            }
             btnEnviar.disabled = true;
             btnEnviar.textContent = 'Enviando...';
-            feedbackDiv.style.display = 'none';
 
-            const nome = nomeInput.value.trim();
-            const tipoSelecionado = document.querySelector('input[name="tipo"]:checked');
-            const endereco = enderecoInput.value.trim();
-
-            if (!nome || !tipoSelecionado) {
-                alert("O nome e a seleção de tipo são obrigatórios.");
-                btnEnviar.disabled = false;
-                btnEnviar.textContent = 'Enviar Pedido';
-                return;
-            }
-
-            // --- CORREÇÃO AQUI ---
-            // Agora enviamos o valor direto do botão de rádio ("encarnados" ou "desencarnados")
-            const dadosParaEnviar = {
-                nome: nome,
-                tipo: tipoSelecionado.value, 
-                endereco: endereco
+            const dados = {
+                nome: document.getElementById('nome').value.trim(),
+                tipo: document.querySelector('input[name="tipo"]:checked').value,
+                endereco: document.getElementById('endereco').value.trim()
             };
 
             try {
-                const result = await enviarPedidoVibracao(dadosParaEnviar);
-                
-                feedbackDiv.className = 'success';
-                feedbackDiv.textContent = result.data.message;
-                form.reset();
-                camposFormulario.classList.add('hidden');
-                btnEnviar.textContent = 'Selecione uma opção';
-                groupEndereco.style.display = 'none'; // Garante que o campo endereço suma após o envio
-
+                await enviarPedidoVibracao(dados);
+                blocoForm.style.display = 'none';
+                blocoSucesso.style.display = 'block';
             } catch (error) {
-                console.error("Erro ao chamar a função de backend: ", error);
-                feedbackDiv.className = 'error';
-                feedbackDiv.textContent = 'Ocorreu um erro ao enviar seu pedido. Tente novamente.';
-            } finally {
-                btnEnviar.disabled = true; 
+                console.error(error);
+                alert("Erro ao enviar pedido. Tente novamente.");
+                btnEnviar.disabled = false;
+                btnEnviar.textContent = 'Enviar Pedido';
             }
-        });
+        };
+
+        // Função para voltar ao formulário (chamada pelo botão de sucesso)
+        window.resetarFormulario = () => {
+            form.reset();
+            camposForm.classList.add('hidden');
+            blocoSucesso.style.display = 'none';
+            blocoForm.style.display = 'block';
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = 'Enviar Pedido';
+        };
     </script>
 </body>
 </html>
