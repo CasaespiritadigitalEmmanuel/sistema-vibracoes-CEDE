@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Vibrações - 48ª EAE Online/Projeto EAE/FDJ</title>
     <style>
-        /* --- ESTILOS GERAIS --- */
+        /* ESTILO DO FUNDO GERAL (FOLHAS) */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
-            background-image: url('/fundo.png'); /* Fundo geral de folhas */
+            background-image: url('/fundo.png'); 
             background-size: cover; 
             background-position: center center; 
             background-repeat: no-repeat; 
@@ -23,72 +23,72 @@
             box-sizing: border-box;
         }
 
-        /* --- CONTAINER PRINCIPAL COM A MARCA D'ÁGUA --- */
+        /* O QUADRO BRANCO (CONTAINER) */
         .container { 
-            /* Cor de fundo branca com leve transparência */
-            background-color: rgba(255, 255, 255, 0.92); 
-            
-            /* Imagem de Jesus e Coração Quentinho como marca d'água */
-            background-image: url('/logo-eae.png'); 
-            background-repeat: no-repeat;
-            background-position: center center;
-            /* Tamanho da marca d'água dentro da caixa */
-            background-size: 60%; 
-            /* Modo de mistura para criar o efeito de marca d'água suave */
-            background-blend-mode: overlay;
-            
-            /* Outros estilos da caixa */
+            position: relative; /* Necessário para a marca d'água */
+            background-color: rgba(255, 255, 255, 0.95); 
             padding: 40px 30px; 
             border-radius: 12px; 
             box-shadow: 0 8px 32px rgba(0,0,0,0.15); 
             text-align: center; 
             width: 100%; 
-            max-width: 480px; /* Otimizado para celular */
-            border-top: 8px solid #6fbf73; /* Borda verde no topo */
-            position: relative;
+            max-width: 480px; /* Tamanho ideal para celular */
+            border-top: 8px solid #6fbf73; 
             overflow: hidden;
+            z-index: 1;
         }
 
-        /* --- TIPOGRAFIA --- */
-        h1 { font-size: 1.7em; color: #2e7d32; margin-bottom: 0.3em; font-weight: 600; line-height: 1.2; position: relative; }
-        h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 0.8em; font-weight: 500; position: relative; }
-        h3 { font-size: 0.95em; color: #444; margin-top: 0; margin-bottom: 1.5em; font-weight: normal; position: relative; }
-        
-        .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; font-size: 1em; position: relative; }
-        
-        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 15px; border-radius: 6px; text-align: left; color: #5d4037; font-size: 0.9em; line-height: 1.5; position: relative; }
-        
-        .sugestao { text-align: left; margin-bottom: 30px; color: #444; font-size: 0.95em; line-height: 1.4; position: relative; }
+        /* --- TÉCNICA DA MARCA D'ÁGUA (JESUS E CORAÇÃO QUENTINHO) --- */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            /* Caminho da imagem conforme seu projeto */
+            background-image: url('/logo-eae.png'); 
+            background-repeat: no-repeat;
+            background-position: center 20px; /* Ajustado para o topo como na imagem */
+            background-size: 90%; /* Tamanho grande para cobrir o fundo do texto */
+            opacity: 0.25; /* Deixa a imagem suave para não atrapalhar a leitura */
+            z-index: -1; /* Coloca a imagem atrás de todo o texto */
+        }
 
-        /* --- BOTÕES DE RÁDIO CIRCULARES (ESTÉTICA ORIGINAL) --- */
-        .radio-options { display: flex; justify-content: center; gap: 35px; margin-bottom: 35px; position: relative; }
+        /* TIPOGRAFIA E ELEMENTOS VISUAIS */
+        h1 { font-size: 1.7em; color: #2e7d32; margin-bottom: 0.3em; font-weight: 600; line-height: 1.2; }
+        h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 0.8em; font-weight: 500; }
+        h3 { font-size: 0.95em; color: #333; margin-top: 0; margin-bottom: 1.5em; font-weight: normal; }
+        
+        .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; font-size: 1em; }
+        
+        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 15px; border-radius: 6px; text-align: left; color: #5d4037; font-size: 0.9em; line-height: 1.5; }
+        
+        .sugestao { text-align: left; margin-bottom: 30px; color: #444; font-size: 0.95em; line-height: 1.4; }
+
+        /* BOTÕES DE RÁDIO CIRCULARES */
+        .radio-options { display: flex; justify-content: center; gap: 35px; margin-bottom: 35px; }
         .radio-options input[type="radio"] { display: none; }
         .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 600; color: #555; }
-        /* Círculo visual do botão */
-        .radio-visual { width: 90px; height: 90px; border-radius: 50%; background-color: rgba(240, 240, 240, 0.8); border: 3px solid #ddd; margin-bottom: 10px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        /* Estilo quando selecionado */
-        .radio-options input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); box-shadow: 0 0 10px rgba(111, 191, 115, 0.3); }
+        .radio-visual { width: 90px; height: 90px; border-radius: 50%; background-color: rgba(240, 240, 240, 0.8); border: 3px solid #ddd; margin-bottom: 10px; transition: 0.3s; }
+        input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); box-shadow: 0 0 10px rgba(111, 191, 115, 0.2); }
 
-        /* --- CAMPOS DO FORMULÁRIO --- */
-        .form-group { text-align: left; margin-bottom: 20px; position: relative; }
+        /* FORMULÁRIO */
+        .form-group { text-align: left; margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        .form-group input[type="text"] { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255, 255, 255, 0.9); }
+        .form-group input[type="text"] { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255, 255, 255, 0.8); }
         
-        .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #333; margin-bottom: 25px; position: relative; }
+        .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #333; margin-bottom: 25px; }
         .privacy-policy input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; cursor: pointer; }
-        .privacy-policy a { color: #007bff; text-decoration: underline; }
         
-        button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; transition: background 0.2s; position: relative; }
+        button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; transition: background 0.2s; }
         button:hover { background-color: #2e7d32; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
 
-        /* --- MENSAGEM DE SUCESSO --- */
-        #container-sucesso { display: none; padding: 20px 0; animation: fadeIn 0.6s; position: relative; z-index: 10; }
+        /* MENSAGEM DE SUCESSO (APARECE APÓS O ENVIO) */
+        #container-sucesso { display: none; padding: 20px 0; animation: fadeIn 0.6s; }
         #container-sucesso h2 { color: #2e7d32; font-size: 2em; margin-bottom: 15px; }
         #container-sucesso p { color: #444; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; }
         .btn-novo-pedido { background-color: #007bff; max-width: 250px; margin: 0 auto; }
 
-        /* --- MODAL (POP-UP) --- */
+        /* MODAL (POP-UP EXPLICAÇÃO) */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; box-sizing: border-box; }
         .modal-overlay.visible { display: flex; }
         .modal-content { background-color: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
@@ -110,7 +110,7 @@
             <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
 
             <div class="aviso-atencao">
-                <strong>Atenção:</strong> Cada pedido enviado participa dos trabalhos de vibração por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
+                <strong>Atenção:</strong> Cada pedido enviado participa por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
             </div>
             
             <p class="sugestao">
@@ -128,7 +128,7 @@
                 <div id="campos-formulario" class="hidden">
                     <div class="form-group">
                         <label for="nome">Nome Completo</label>
-                        <input type="text" id="nome" placeholder="Digite o nome de quem receberá as vibrações" required>
+                        <input type="text" id="nome" placeholder="Digite o nome completo" required>
                     </div>
                     <div class="form-group" id="group-endereco">
                         <label for="endereco">Endereço (Opcional)</label>
@@ -167,9 +167,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
-        // ===================================================================
-        //  CONFIGURAÇÃO DO FIREBASE
-        // ===================================================================
+        // CONFIGURAÇÃO OFICIAL
         const firebaseConfig = {
             apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
             authDomain: "vibracoes-cede.firebaseapp.com",
@@ -183,7 +181,6 @@
         const functions = getFunctions(app, 'southamerica-east1');
         const enviarPedidoVibracao = httpsCallable(functions, 'enviarPedidoVibracao');
 
-        // Referências aos elementos do DOM
         const form = document.getElementById('form-pedido');
         const blocoForm = document.getElementById('bloco-formulario');
         const blocoSucesso = document.getElementById('container-sucesso');
@@ -192,13 +189,13 @@
         const radiosTipo = document.querySelectorAll('input[name="tipo"]');
         const groupEndereco = document.getElementById('group-endereco');
 
-        // Lógica do Modal (Pop-up)
+        // Modal (Pop-up)
         const modal = document.getElementById('modal-explicacao');
         document.getElementById('open-modal-explicacao').onclick = () => modal.classList.add('visible');
         document.getElementById('close-modal-explicacao').onclick = () => modal.classList.remove('visible');
         modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('visible'); };
 
-        // Exibição dinâmica dos campos conforme o tipo selecionado
+        // Exibição dos campos
         radiosTipo.forEach(radio => {
             radio.onchange = (e) => {
                 camposForm.classList.remove('hidden');
@@ -206,35 +203,34 @@
             };
         });
 
-        // Lógica de Envio do Formulário
+        // Envio e Troca de Tela
         form.onsubmit = async (e) => {
             e.preventDefault();
             btnEnviar.disabled = true;
             btnEnviar.textContent = 'Enviando...';
 
             try {
-                // Chama a função no Google Cloud para salvar o pedido
+                // Chamada ao robô no Firebase
                 await enviarPedidoVibracao({
                     nome: document.getElementById('nome').value.trim(),
                     tipo: document.querySelector('input[name="tipo"]:checked').value,
                     endereco: document.getElementById('endereco').value.trim()
                 });
                 
-                // Se der certo, esconde o formulário e mostra a mensagem de sucesso
+                // Sucesso: Esconde formulário, mostra mensagem
                 blocoForm.style.display = 'none';
                 blocoSucesso.style.display = 'block';
-                window.scrollTo(0, 0); // Rola a página para o topo
+                window.scrollTo(0, 0); 
 
             } catch (error) {
-                // Se der erro, mostra um alerta para o usuário
-                console.error("Erro técnico ao enviar:", error);
-                alert("Ocorreu um erro ao enviar o pedido. Por favor, verifique sua conexão e tente novamente.");
+                console.error(error);
+                alert("Erro ao enviar pedido. Tente novamente.");
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
             }
         };
 
-        // Função para resetar o formulário e fazer um novo pedido
+        // Função Novo Pedido
         window.resetarFormulario = () => {
             form.reset();
             camposForm.classList.add('hidden');
