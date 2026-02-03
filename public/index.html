@@ -8,6 +8,7 @@
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
+            /* Estética original do fundo configurada por você */
             background-image: url('/fundo.png'); 
             background-size: contain; 
             background-position: center center; 
@@ -22,10 +23,11 @@
             box-sizing: border-box;
         }
         .container { 
-            background-color: rgba(255, 255, 255, 0.95); 
+            /* Mantém a transparência do container conforme image_e07165.png */
+            background-color: rgba(255, 255, 255, 0.9); 
             padding: 40px 50px; 
             border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
             text-align: center; 
             width: 100%; 
             max-width: 600px;
@@ -34,24 +36,31 @@
         h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 0.5em; font-weight: 600; }
         h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
         h3 { font-size: 1em; color: #333; margin-top: 0; margin-bottom: 2em; font-weight: normal; }
+        
         .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; }
+        
         .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 10px; border-radius: 4px; text-align: left; color: #5d4037; font-size: 0.9em; }
+        
         .sugestao { text-align: left; margin-bottom: 30px; color: #555; font-size: 0.95em; }
+
+        /* Estética dos botões de rádio circulares conforme image_e07165.png */
         .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
         .radio-options input[type="radio"] { display: none; }
         .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 500; color: #555; }
         .radio-visual { width: 80px; height: 80px; border-radius: 50%; background-color: #f0f0f0; border: 2px solid #ccc; margin-bottom: 10px; transition: all 0.2s ease-in-out; }
         .radio-options input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.05); }
+
         .form-group { text-align: left; margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
         .form-group input[type="text"] { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1em; }
+        
         .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #555; margin-bottom: 25px; }
         .privacy-policy input[type="checkbox"] { margin-top: 3px; }
-        .privacy-policy a { color: #007bff; }
+        
         button { width: 100%; padding: 15px; background-color: #388e3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
-        
-        /* Estilos da Mensagem de Sucesso */
+
+        /* Estilos da Mensagem de Confirmação */
         #container-sucesso { display: none; padding: 20px; }
         #container-sucesso h2 { color: #2e7d32; font-size: 1.8em; margin-bottom: 15px; }
         #container-sucesso p { color: #555; line-height: 1.6; margin-bottom: 25px; }
@@ -76,11 +85,11 @@
             <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
 
             <div class="aviso-atencao">
-                <strong>Atenção:</strong> Cada pedido enviado participa por 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
+                <strong>Atenção:</strong> Cada pedido enviado participa dos trabalhos de vibração por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
             </div>
-
+            
             <p class="sugestao">
-                Sugerimos unir-se a nós em oração todas as quintas às 19:30.
+                <strong>Sugerimos:</strong> Para fortalecer a corrente de vibrações, junte-se a nós em oração de onde estiver, todas as quintas-feiras às 19:30.
             </p>
             
             <form id="form-pedido">
@@ -97,8 +106,8 @@
                         <input type="text" id="nome" required>
                     </div>
                     <div class="form-group" id="group-endereco">
-                        <label for="endereco">Endereço (Cidade/Estado)</label>
-                        <input type="text" id="endereco" placeholder="Apenas para encarnados">
+                        <label for="endereco">Endereço (Opcional)</label>
+                        <input type="text" id="endereco" placeholder="Cidade / Estado">
                     </div>
 
                     <div class="privacy-policy">
@@ -115,7 +124,7 @@
 
         <div id="container-sucesso">
             <h2>🙏 Pedido enviado com sucesso!</h2>
-            <p>O nome foi incluído em nossas listas e receberá as vibrações espirituais durante as próximas 4 quintas-feiras.</p>
+            <p>O nome foi incluído em nossas listas de vibração e irradiação espiritual para o ciclo das próximas 4 semanas.</p>
             <button class="btn-novo-pedido" onclick="resetarFormulario()">Enviar outro nome</button>
         </div>
     </div>
@@ -123,9 +132,9 @@
     <div id="modal-explicacao" class="modal-overlay">
         <div class="modal-content">
             <h2>O que é o Trabalho de Vibração?</h2>
-            <p>É uma atividade de doação de energias positivas através da prece coletiva, visando o amparo e o equilíbrio daqueles que necessitam.</p>
+            <p>É uma atividade de doação de energias positivas e salutares, realizadas por uma equipe dedicada de trabalhadores da casa espírita através da prece coletiva.</p>
             <div class="modal-actions">
-                <button id="close-modal-explicacao">Entendi</button>
+                <button id="close-modal-explicacao">Fechar</button>
             </div>
         </div>
     </div>
@@ -160,7 +169,7 @@
         document.getElementById('open-modal-explicacao').onclick = () => modal.classList.add('visible');
         document.getElementById('close-modal-explicacao').onclick = () => modal.classList.remove('visible');
 
-        // Lógica de Troca de Campos
+        // Troca de campos conforme seleção
         radiosTipo.forEach(radio => {
             radio.onchange = (e) => {
                 camposForm.classList.remove('hidden');
@@ -168,7 +177,7 @@
             };
         });
 
-        // Envio do Pedido
+        // Envio e exibição da mensagem de sucesso
         form.onsubmit = async (e) => {
             e.preventDefault();
             btnEnviar.disabled = true;
@@ -186,20 +195,19 @@
                 blocoSucesso.style.display = 'block';
             } catch (error) {
                 console.error(error);
-                alert("Erro ao enviar pedido. Tente novamente.");
+                alert("Erro ao enviar. Tente novamente.");
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
             }
         };
 
-        // Função para voltar ao formulário (chamada pelo botão de sucesso)
+        // Função para novo pedido
         window.resetarFormulario = () => {
             form.reset();
             camposForm.classList.add('hidden');
             blocoSucesso.style.display = 'none';
             blocoForm.style.display = 'block';
             btnEnviar.disabled = false;
-            btnEnviar.textContent = 'Enviar Pedido';
         };
     </script>
 </body>
