@@ -9,7 +9,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
             background-image: url('/fundo.png'); 
-            background-size: contain; 
+            background-size: cover; 
             background-position: center center; 
             background-repeat: no-repeat; 
             background-attachment: fixed; 
@@ -18,61 +18,75 @@
             align-items: center; 
             min-height: 100vh; 
             margin: 0; 
-            padding: 20px; 
+            padding: 15px; /* Reduzi um pouco o padding geral */
             box-sizing: border-box;
         }
         .container { 
-            background-color: rgba(255, 255, 255, 0.9); 
-            padding: 40px 50px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            background-color: rgba(255, 255, 255, 0.93);
+            padding: 30px 25px; /* Ajustei o padding interno */
+            border-radius: 12px; /* Arredondei um pouco menos */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra mais suave */
             text-align: center; 
             width: 100%; 
-            max-width: 600px;
+            max-width: 450px; /* Largura máxima ideal para celular */
             border-top: 5px solid #6fbf73;
         }
-        h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 0.5em; font-weight: 600; }
-        h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
-        h3 { font-size: 1em; color: #333; margin-top: 0; margin-bottom: 2em; font-weight: normal; }
+        h1 { font-size: 1.6em; color: #2e7d32; margin-bottom: 0.5em; line-height: 1.2; } /* Fonte um pouco menor */
+        h2 { font-size: 1.1em; color: #388e3c; margin-top: 0; margin-bottom: 1em; font-weight: 500; }
+        h3 { font-size: 0.95em; color: #555; margin-top: 0; margin-bottom: 1.5em; font-weight: normal; }
         
-        .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; }
+        .link-explicacao { display: inline-block; margin-bottom: 20px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; font-size: 0.95em; }
         
-        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 10px; border-radius: 4px; text-align: left; color: #5d4037; font-size: 0.9em; }
+        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 12px; margin-bottom: 15px; border-radius: 6px; text-align: left; color: #5d4037; font-size: 0.9em; line-height: 1.4; }
         
-        .sugestao { text-align: left; margin-bottom: 30px; color: #555; font-size: 0.95em; }
+        .sugestao { text-align: left; margin-bottom: 25px; color: #555; font-size: 0.9em; line-height: 1.4; }
 
-        /* Estética dos botões de rádio circulares conforme sua imagem */
-        .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
-        .radio-options input[type="radio"] { display: none; }
-        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 500; color: #555; }
-        .radio-visual { width: 80px; height: 80px; border-radius: 50%; background-color: #f0f0f0; border: 2px solid #ccc; margin-bottom: 10px; transition: all 0.2s ease-in-out; }
+        /* Estética dos botões de rádio */
+        .radio-options { display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; }
+        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 500; color: #555; font-size: 0.95em; }
+        .radio-visual { width: 70px; height: 70px; border-radius: 50%; background-color: #f0f0f0; border: 2px solid #ccc; margin-bottom: 8px; transition: all 0.2s ease-in-out; } /* Botões visuais um pouco menores */
         .radio-options input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.05); }
 
-        .form-group { text-align: left; margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
-        .form-group input[type="text"] { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1em; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #444; font-size: 0.95em; }
+        .form-group input[type="text"] { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1em; } /* Input mais confortável */
         
-        .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #555; margin-bottom: 25px; }
-        .privacy-policy input[type="checkbox"] { margin-top: 3px; }
-        .privacy-policy a { color: #007bff; text-decoration: none; }
+        .privacy-policy { display: flex; align-items: flex-start; gap: 8px; text-align: left; font-size: 0.85em; color: #555; margin-bottom: 20px; line-height: 1.3; }
+        .privacy-policy input[type="checkbox"] { margin-top: 2px; }
+        .privacy-policy a { color: #007bff; text-decoration: underline; }
         
-        button { width: 100%; padding: 15px; background-color: #388e3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
+        button { width: 100%; padding: 12px; background-color: #388e3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.2s; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
 
         /* Estilos da Mensagem de Confirmação Final */
         #container-sucesso { display: none; padding: 20px; animation: fadeIn 0.5s; }
-        #container-sucesso h2 { color: #2e7d32; font-size: 1.8em; margin-bottom: 15px; }
-        #container-sucesso p { color: #555; line-height: 1.6; margin-bottom: 25px; }
-        .btn-novo-pedido { background-color: #007bff; max-width: 250px; margin: 0 auto; }
+        #container-sucesso h2 { color: #2e7d32; font-size: 1.6em; margin-bottom: 15px; }
+        #container-sucesso p { color: #555; line-height: 1.5; margin-bottom: 25px; font-size: 1em; }
+        .btn-novo-pedido { background-color: #007bff; max-width: 100%; }
 
-        /* Estilos do Modal de Explicação */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-overlay.visible { display: flex; }
-        .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; color: #333; text-align: left; }
-        .modal-content h2 { margin-top: 0; color: #2E7D32; }
-        .modal-actions { text-align: right; margin-top: 20px; }
+        /* --- Estilos do Novo Modal (Pop-up) --- */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.5); /* Fundo semi-transparente escuro */
+            display: none; justify-content: center; align-items: center; z-index: 1000; 
+            padding: 20px; box-sizing: border-box;
+            opacity: 0; transition: opacity 0.3s ease; /* Transição suave */
+        }
+        .modal-overlay.visible { display: flex; opacity: 1; }
+        .modal-content { 
+            background-color: white; padding: 25px; border-radius: 8px; 
+            width: 100%; max-width: 500px; color: #333; text-align: left; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transform: translateY(-20px); transition: transform 0.3s ease; /* Efeito de subida */
+        }
+        .modal-overlay.visible .modal-content { transform: translateY(0); }
+        .modal-content h2 { margin-top: 0; color: #2E7D32; font-size: 1.4em; text-align: center; margin-bottom: 20px; }
+        .modal-content p { line-height: 1.6; font-size: 0.95em; color: #555; text-align: justify; margin-bottom: 15px;}
+        .modal-actions { text-align: center; margin-top: 25px; }
+        .btn-fechar-modal { background-color: #6c757d; color: white; padding: 10px 30px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1em;}
+        .btn-fechar-modal:hover { background-color: #5a6268; }
+
         .hidden { display: none; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -133,9 +147,10 @@
     <div id="modal-explicacao" class="modal-overlay">
         <div class="modal-content">
             <h2>O que é o Trabalho de Vibração?</h2>
-            <p>É uma atividade de doação de energias positivas através da prece coletiva, visando o amparo e o reequilíbrio energético daqueles que necessitam.</p>
+            <p>A Vibração é um processo mental de irradiação fluídica, ou seja: é a emissão de energias através da força do nosso pensamento direcionadas a um propósito específico.</p>
+            <p>O Trabalho de Vibrações ocorre por meio da prece coletiva, por um grupo de trabalhadores, que sob o auxílio dos Bens Feitores espirituais e a soma das energias de todos os participantes, direcionam vibrações positivas e de coração à todos àqueles que necessitam da nossa ajuda (encarnados ou desencarnados).</p>
             <div class="modal-actions">
-                <button id="close-modal-explicacao" style="width: auto; padding: 10px 30px;">Fechar</button>
+                <button id="close-modal-explicacao" class="btn-fechar-modal">Fechar</button>
             </div>
         </div>
     </div>
@@ -165,10 +180,25 @@
         const radiosTipo = document.querySelectorAll('input[name="tipo"]');
         const groupEndereco = document.getElementById('group-endereco');
 
-        // Modal
+        // Lógica do Novo Modal
         const modal = document.getElementById('modal-explicacao');
-        document.getElementById('open-modal-explicacao').onclick = () => modal.classList.add('visible');
-        document.getElementById('close-modal-explicacao').onclick = () => modal.classList.remove('visible');
+        const openModalBtn = document.getElementById('open-modal-explicacao');
+        const closeModalBtn = document.getElementById('close-modal-explicacao');
+
+        openModalBtn.addEventListener('click', () => {
+            modal.classList.add('visible');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('visible');
+        });
+
+        // Fecha o modal se clicar fora da caixa de conteúdo
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('visible');
+            }
+        });
 
         // Lógica de Exibição de Campos
         radiosTipo.forEach(radio => {
@@ -201,7 +231,7 @@
 
             } catch (error) {
                 console.error("Erro no envio:", error);
-                alert("Erro ao enviar pedido. Detalhes: " + error.message);
+                alert("Erro ao enviar pedido. Tente novamente.");
                 btnEnviar.disabled = false;
                 btnEnviar.textContent = 'Enviar Pedido';
             }
