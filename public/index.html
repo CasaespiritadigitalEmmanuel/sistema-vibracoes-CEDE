@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Vibrações - 48ª EAE Online/Projeto EAE/FDJ</title>
     <style>
-        /* ESTILO DO FUNDO GERAL (FOLHAS) */
+        /* FUNDO GERAL DA PÁGINA */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
-            background-image: url('/fundo.png'); 
-            background-size: cover; 
-            background-position: center center; 
-            background-repeat: no-repeat; 
-            background-attachment: fixed; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -23,76 +18,108 @@
             box-sizing: border-box;
         }
 
-        /* O QUADRO BRANCO (CONTAINER) */
+        /* QUADRO BRANCO (CONTAINER) */
         .container { 
-            position: relative; /* Necessário para a marca d'água */
-            background-color: rgba(255, 255, 255, 0.95); 
-            padding: 40px 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15); 
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.96); 
+            padding: 40px 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
             text-align: center; 
             width: 100%; 
-            max-width: 480px; /* Tamanho ideal para celular */
+            max-width: 450px; 
             border-top: 8px solid #6fbf73; 
             overflow: hidden;
             z-index: 1;
         }
 
-        /* --- TÉCNICA DA MARCA D'ÁGUA (JESUS E CORAÇÃO QUENTINHO BEM VISÍVEL) --- */
+        /* --- AJUSTE ESPECIAL PARA O ROSTO DE JESUS E CORAÇÃO QUENTINHO --- */
         .container::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background-image: url('/fundo.png'); 
             background-repeat: no-repeat;
-            background-position: center 20px; 
-            background-size: 90%; 
-            opacity: 0.60; /* Opacidade aumentada para maior visibilidade conforme solicitado */
-            z-index: -1; 
+            /* Movemos um pouco mais para baixo para o rosto fugir do título principal */
+            background-position: center 45px; 
+            background-size: 95%; 
+            /* Aumentamos a visibilidade e o contraste para o selo aparecer */
+            opacity: 0.75; 
+            filter: contrast(115%) saturate(110%);
+            z-index: -1;
         }
 
-        /* TIPOGRAFIA E ELEMENTOS VISUAIS */
-        h1 { font-size: 1.7em; color: #2e7d32; margin-bottom: 0.3em; font-weight: 600; line-height: 1.2; }
-        h2 { font-size: 1.2em; color: #388e3c; margin-top: 0; margin-bottom: 0.8em; font-weight: 500; }
-        h3 { font-size: 0.95em; color: #333; margin-top: 0; margin-bottom: 1.5em; font-weight: normal; }
+        /* TIPOGRAFIA COM LEVE SOMBRA PARA MELHORAR LEITURA SOBRE A IMAGEM */
+        h1 { 
+            font-size: 1.6em; 
+            color: #2e7d32; 
+            margin-bottom: 0.3em; 
+            font-weight: 700; 
+            position: relative;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+        h2 { font-size: 1.1em; color: #388e3c; margin-top: 0; margin-bottom: 1em; position: relative; }
+        h3 { font-size: 0.9em; color: #444; margin-top: 0; margin-bottom: 2em; font-weight: 500; position: relative; }
         
-        .link-explicacao { display: inline-block; margin-bottom: 25px; color: #007bff; font-weight: 500; cursor: pointer; text-decoration: underline; font-size: 1em; }
+        .link-explicacao { 
+            display: inline-block; 
+            margin-bottom: 25px; 
+            color: #007bff; 
+            font-weight: 600; 
+            cursor: pointer; 
+            text-decoration: underline; 
+            position: relative; 
+            background: rgba(255,255,255,0.6);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
         
-        .aviso-atencao { background-color: #fffde7; border: 1px solid #fff59d; border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 15px; border-radius: 6px; text-align: left; color: #5d4037; font-size: 0.9em; line-height: 1.5; }
+        .aviso-atencao { 
+            background-color: rgba(255, 253, 231, 0.9); /* Leve transparência para ver o fundo */
+            border: 1px solid #fff59d; 
+            border-left: 5px solid #ffc107; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            text-align: left; 
+            color: #5d4037; 
+            font-size: 0.9em; 
+            position: relative; 
+        }
         
-        .sugestao { text-align: left; margin-bottom: 30px; color: #444; font-size: 0.95em; line-height: 1.4; }
-
-        /* BOTÕES DE RÁDIO CIRCULARES */
-        .radio-options { display: flex; justify-content: center; gap: 35px; margin-bottom: 35px; }
+        /* BOTÕES CIRCULARES */
+        .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; position: relative; }
         .radio-options input[type="radio"] { display: none; }
-        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: 600; color: #555; }
-        .radio-visual { width: 90px; height: 90px; border-radius: 50%; background-color: rgba(240, 240, 240, 0.8); border: 3px solid #ddd; margin-bottom: 10px; transition: 0.3s; }
-        input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); box-shadow: 0 0 10px rgba(111, 191, 115, 0.2); }
+        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 700; color: #555; }
+        .radio-visual { 
+            width: 85px; 
+            height: 85px; 
+            border-radius: 50%; 
+            background-color: rgba(240, 240, 240, 0.9); 
+            border: 3px solid #ddd; 
+            margin-bottom: 10px; 
+            transition: 0.3s; 
+        }
+        input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); }
 
         /* FORMULÁRIO */
-        .form-group { text-align: left; margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        .form-group input[type="text"] { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255, 255, 255, 0.8); }
+        .form-group { text-align: left; margin-bottom: 20px; position: relative; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; text-shadow: 1px 1px 0px white;}
+        .form-group input { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255,255,255,0.8); }
         
-        .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #333; margin-bottom: 25px; }
-        .privacy-policy input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; cursor: pointer; }
+        .privacy-policy { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.9em; color: #333; margin-bottom: 25px; position: relative; }
         
-        button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; transition: background 0.2s; }
-        button:hover { background-color: #2e7d32; }
+        button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; position: relative; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
 
-        /* MENSAGEM DE SUCESSO (APARECE APÓS O ENVIO) */
-        #container-sucesso { display: none; padding: 20px 0; animation: fadeIn 0.6s; }
+        /* MENSAGEM DE SUCESSO */
+        #container-sucesso { display: none; padding: 20px 0; animation: fadeIn 0.8s; position: relative; }
         #container-sucesso h2 { color: #2e7d32; font-size: 2em; margin-bottom: 15px; }
-        #container-sucesso p { color: #444; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; }
-        .btn-novo-pedido { background-color: #007bff; max-width: 250px; margin: 0 auto; }
 
-        /* MODAL (POP-UP EXPLICAÇÃO) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; box-sizing: border-box; }
+        /* MODAL (POP-UP) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
         .modal-overlay.visible { display: flex; }
         .modal-content { background-color: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .modal-content h2 { margin-top: 0; color: #2E7D32; font-size: 1.5em; text-align: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
-        .modal-content p { line-height: 1.7; color: #444; margin-bottom: 15px; text-align: justify; }
         .btn-fechar-modal { background-color: #7f8c8d; color: white; padding: 12px 40px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; display: block; margin: 20px auto 0; }
 
         .hidden { display: none; }
@@ -109,12 +136,8 @@
             <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
 
             <div class="aviso-atencao">
-                <strong>Atenção:</strong> Cada pedido enviado participa por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
+                <strong>Atenção:</strong> Cada pedido participará por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o mesmo nome neste período.</strong>
             </div>
-            
-            <p class="sugestao">
-                <strong>Sugerimos:</strong> Para fortalecer a corrente de vibrações, una-se a nós em oração todas as quintas às 19:30.
-            </p>
             
             <form id="form-pedido">
                 <div class="radio-options">
@@ -130,15 +153,13 @@
                         <input type="text" id="nome" placeholder="Digite o nome completo" required>
                     </div>
                     <div class="form-group" id="group-endereco">
-                        <label for="endereco">Endereço (Opcional)</label>
-                        <input type="text" id="endereco" placeholder="Cidade / Estado">
+                        <label for="endereco">Endereço (Cidade / Estado)</label>
+                        <input type="text" id="endereco" placeholder="Apenas para encarnados">
                     </div>
 
                     <div class="privacy-policy">
-                        <input type="checkbox" id="politica-checkbox" required>
-                        <label for="politica-checkbox">
-                            Ao informar os dados, eu concordo com a <a href="/politica.html" target="_blank">Política de Privacidade</a> da Escola.
-                        </label>
+                        <input type="checkbox" id="politica" required>
+                        <label for="politica">Eu concordo com a <a href="/politica.html" target="_blank">Política de Privacidade</a>.</label>
                     </div>
                     
                     <button type="submit" id="btn-enviar">Enviar Pedido</button>
@@ -147,17 +168,16 @@
         </div>
 
         <div id="container-sucesso">
-            <h2>🙏 Pedido enviado com sucesso!</h2>
-            <p>O nome foi incluído em nossas listas. As vibrações serão realizadas nas próximas 4 quintas-feiras. Que a paz envolva a todos.</p>
-            <button class="btn-novo-pedido" onclick="resetarFormulario()">Fazer outro pedido</button>
+            <h2>🙏 Pedido enviado!</h2>
+            <p>O nome foi incluído em nossas listas de vibração espiritual. Que a luz envolva a todos.</p>
+            <button style="background-color: #007bff; max-width: 250px; margin: 0 auto;" onclick="location.reload()">Fazer outro pedido</button>
         </div>
     </div>
 
     <div id="modal-explicacao" class="modal-overlay">
         <div class="modal-content">
-            <h2>O que é o Trabalho de Vibração?</h2>
-            <p>A Vibração é um processo mental de irradiação fluídica, direcionada a um propósito específico através da força do pensamento e da prece coletiva.</p>
-            <p>Sob o auxílio dos Benfeitores Espirituais, uma equipe dedicada direciona vibrações positivas de harmonia, saúde e equilíbrio a todos aqueles que necessitam, sejam encarnados ou desencarnados.</p>
+            <h2 style="text-align: center; color: #2E7D32;">O que é o Trabalho de Vibração?</h2>
+            <p style="text-align: justify; line-height: 1.6;">A Vibração é um processo mental de irradiação fluídica através da prece coletiva, onde direcionamos energias de paz e equilíbrio.</p>
             <button id="close-modal-explicacao" class="btn-fechar-modal">Fechar</button>
         </div>
     </div>
@@ -166,7 +186,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
-        // CONFIGURAÇÃO OFICIAL
         const firebaseConfig = {
             apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
             authDomain: "vibracoes-cede.firebaseapp.com",
@@ -180,62 +199,33 @@
         const functions = getFunctions(app, 'southamerica-east1');
         const enviarPedidoVibracao = httpsCallable(functions, 'enviarPedidoVibracao');
 
-        const form = document.getElementById('form-pedido');
-        const blocoForm = document.getElementById('bloco-formulario');
-        const blocoSucesso = document.getElementById('container-sucesso');
-        const camposForm = document.getElementById('campos-formulario');
-        const btnEnviar = document.getElementById('btn-enviar');
-        const radiosTipo = document.querySelectorAll('input[name="tipo"]');
-        const groupEndereco = document.getElementById('group-endereco');
+        document.getElementById('open-modal-explicacao').onclick = () => document.getElementById('modal-explicacao').classList.add('visible');
+        document.getElementById('close-modal-explicacao').onclick = () => document.getElementById('modal-explicacao').classList.remove('visible');
 
-        // Modal (Pop-up)
-        const modal = document.getElementById('modal-explicacao');
-        document.getElementById('open-modal-explicacao').onclick = () => modal.classList.add('visible');
-        document.getElementById('close-modal-explicacao').onclick = () => modal.classList.remove('visible');
-        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('visible'); };
-
-        // Exibição dos campos
-        radiosTipo.forEach(radio => {
+        const radios = document.querySelectorAll('input[name="tipo"]');
+        radios.forEach(radio => {
             radio.onchange = (e) => {
-                camposForm.classList.remove('hidden');
-                groupEndereco.style.display = e.target.value === 'encarnados' ? 'block' : 'none';
+                document.getElementById('campos-formulario').classList.remove('hidden');
+                document.getElementById('group-endereco').style.display = e.target.value === 'encarnados' ? 'block' : 'none';
             };
         });
 
-        // Envio e Troca de Tela
-        form.onsubmit = async (e) => {
+        document.getElementById('form-pedido').onsubmit = async (e) => {
             e.preventDefault();
-            btnEnviar.disabled = true;
-            btnEnviar.textContent = 'Enviando...';
-
+            const btn = document.getElementById('btn-enviar');
+            btn.disabled = true; btn.textContent = 'Enviando...';
             try {
-                // Chamada ao robô no Firebase
                 await enviarPedidoVibracao({
                     nome: document.getElementById('nome').value.trim(),
                     tipo: document.querySelector('input[name="tipo"]:checked').value,
                     endereco: document.getElementById('endereco').value.trim()
                 });
-                
-                // Sucesso: Esconde formulário, mostra mensagem
-                blocoForm.style.display = 'none';
-                blocoSucesso.style.display = 'block';
-                window.scrollTo(0, 0); 
-
+                document.getElementById('bloco-formulario').style.display = 'none';
+                document.getElementById('container-sucesso').style.display = 'block';
             } catch (error) {
-                console.error(error);
-                alert("Erro ao enviar pedido. Tente novamente.");
-                btnEnviar.disabled = false;
-                btnEnviar.textContent = 'Enviar Pedido';
+                alert("Erro ao enviar. Tente novamente.");
+                btn.disabled = false; btn.textContent = 'Enviar Pedido';
             }
-        };
-
-        // Função Novo Pedido
-        window.resetarFormulario = () => {
-            form.reset();
-            camposForm.classList.add('hidden');
-            blocoSucesso.style.display = 'none';
-            blocoForm.style.display = 'block';
-            btnEnviar.disabled = false;
         };
     </script>
 </body>
