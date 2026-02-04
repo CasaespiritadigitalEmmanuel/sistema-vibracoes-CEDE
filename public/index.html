@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Vibrações - 48ª EAE Online/Projeto EAE/FDJ</title>
     <style>
-        /* FUNDO GERAL DA PÁGINA */
+        /* FUNDO DA PÁGINA COM EFEITO FIXO (ROLLING CONTENT) */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
+            background-image: url('https://vibracoes-cede.web.app/fundo.png'); /* Caminho do seu fundo de folhas */
+            background-size: cover; 
+            background-position: center center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; /* RESTAURADO: O fundo fica parado enquanto a página rola */
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -18,40 +23,42 @@
             box-sizing: border-box;
         }
 
-        /* QUADRO BRANCO (CONTAINER) OTIMIZADO PARA CELULAR */
+        /* CONTAINER COM TAMANHO TOTAL E MARCA D'ÁGUA */
         .container { 
             position: relative;
             background-color: rgba(255, 255, 255, 0.96); 
-            padding: 30px 20px; 
+            padding: 35px 25px; 
             border-radius: 15px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
             text-align: center; 
             width: 100%; 
             max-width: 450px; 
+            min-height: 600px; /* GARANTE O TAMANHO TOTAL SEMPRE */
             border-top: 8px solid #6fbf73; 
             overflow: hidden;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* --- MARCA D'ÁGUA DE JESUS (AJUSTADA PARA O ROSTO FICAR LIVRE) --- */
+        /* --- POSICIONAMENTO DO ROSTO DE JESUS (NÃO COBERTO) --- */
         .container::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('/fundo.png'); 
+            background-image: url('https://vibracoes-cede.web.app/fundo.png'); /* Imagem do Jesus/Coração Quentinho */
             background-repeat: no-repeat;
-            /* Empurramos a imagem para baixo para o rosto aparecer após os títulos */
-            background-position: center 130px; 
-            background-size: 95%; 
-            opacity: 0.75; 
-            filter: contrast(110%) saturate(105%);
+            /* Empurrado para baixo para o rosto ficar visível abaixo dos títulos */
+            background-position: center 150px; 
+            background-size: 100%; 
+            opacity: 0.70; 
+            filter: contrast(110%);
             z-index: -1;
         }
 
-        /* TIPOGRAFIA */
         h1 { font-size: 1.55em; color: #2e7d32; margin-bottom: 0.2em; font-weight: 700; position: relative; }
-        h2 { font-size: 1.1em; color: #388e3c; margin-top: 0; margin-bottom: 0.5em; position: relative; }
-        h3 { font-size: 0.9em; color: #444; margin-top: 0; margin-bottom: 1.5em; font-weight: 500; position: relative; }
+        h2 { font-size: 1.1em; color: #388e3c; margin-top: 0; margin-bottom: 1.5em; position: relative; }
         
         .link-explicacao { 
             display: inline-block; 
@@ -61,18 +68,27 @@
             cursor: pointer; 
             text-decoration: underline; 
             position: relative; 
-            background: rgba(255,255,255,0.7);
-            padding: 2px 8px;
-            border-radius: 4px;
         }
+
+        /* BOTÕES CIRCULARES ORIGINAIS */
+        .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 25px; position: relative; }
+        .radio-options input[type="radio"] { display: none; }
+        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 700; color: #555; font-size: 0.9em; }
+        .radio-visual { width: 80px; height: 80px; border-radius: 50%; background-color: rgba(240, 240, 240, 0.9); border: 3px solid #ddd; margin-bottom: 8px; transition: 0.3s; }
+        input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); }
+
+        /* CAMPOS SEMPRE VISÍVEIS (TAMANHO TOTAL) */
+        .form-group { text-align: left; margin-bottom: 15px; position: relative; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 0.95em; }
+        .form-group input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255,255,255,0.8); }
         
-        /* BANNER DE ATENÇÃO (REPOSICIONADO PARA O FINAL) */
+        /* BANNER DE ATENÇÃO NO FINAL */
         .aviso-atencao { 
             background-color: rgba(255, 253, 231, 0.9); 
             border: 1px solid #fff59d; 
             border-left: 5px solid #ffc107; 
             padding: 12px; 
-            margin: 20px 0; 
+            margin: 15px 0; 
             border-radius: 8px; 
             text-align: left; 
             color: #5d4037; 
@@ -81,36 +97,20 @@
             position: relative; 
         }
         
-        .sugestao { text-align: left; margin-bottom: 15px; color: #444; font-size: 0.85em; line-height: 1.4; position: relative; font-weight: 500; }
-
-        /* BOTÕES CIRCULARES ORIGINAIS */
-        .radio-options { display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; position: relative; }
-        .radio-options input[type="radio"] { display: none; }
-        .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 700; color: #555; font-size: 0.9em; }
-        .radio-visual { width: 80px; height: 80px; border-radius: 50%; background-color: rgba(240, 240, 240, 0.9); border: 3px solid #ddd; margin-bottom: 8px; transition: 0.3s; }
-        input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); }
-
-        /* CAMPOS DO FORMULÁRIO */
-        .form-group { text-align: left; margin-bottom: 15px; position: relative; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 0.95em; }
-        .form-group input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255,255,255,0.8); }
-        
-        .privacy-policy { display: flex; align-items: flex-start; gap: 8px; text-align: left; font-size: 0.85em; color: #333; margin-bottom: 20px; position: relative; line-height: 1.3; }
+        .privacy-policy { display: flex; align-items: flex-start; gap: 8px; text-align: left; font-size: 0.85em; color: #333; margin-bottom: 20px; position: relative; }
         
         button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; position: relative; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
 
-        /* MENSAGEM DE SUCESSO E MODAL */
+        /* ESTILOS DE SUCESSO */
         #container-sucesso { display: none; padding: 20px 0; animation: fadeIn 0.8s; position: relative; }
         #container-sucesso h2 { color: #2e7d32; font-size: 1.8em; }
-        
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
         .modal-overlay.visible { display: flex; }
         .modal-content { background-color: white; padding: 25px; border-radius: 12px; width: 100%; max-width: 500px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
         .btn-fechar-modal { background-color: #7f8c8d; color: white; padding: 12px 40px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; display: block; margin: 20px auto 0; }
-
-        .hidden { display: none; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -118,19 +118,18 @@
         <div id="bloco-formulario">
             <h1>48ª Escola de Aprendizes do Evangelho Online</h1>
             <h2>Trabalho de Vibrações</h2>
-            <h3>As Vibrações Acontecem Todas as Quintas-feiras às 19:30.</h3>
-
+            
             <span id="open-modal-explicacao" class="link-explicacao">O que é o Trabalho de Vibração?</span>
 
             <form id="form-pedido">
                 <div class="radio-options">
-                    <input type="radio" id="enc" name="tipo" value="encarnados">
+                    <input type="radio" id="enc" name="tipo" value="encarnados" checked>
                     <label for="enc"><div class="radio-visual"></div>Encarnado</label>
                     <input type="radio" id="des" name="tipo" value="desencarnados">
                     <label for="des"><div class="radio-visual"></div>Desencarnado</label>
                 </div>
                 
-                <div id="campos-formulario" class="hidden">
+                <div id="campos-formulario">
                     <div class="form-group">
                         <label for="nome">Nome Completo</label>
                         <input type="text" id="nome" placeholder="Nome de quem receberá a vibração" required>
@@ -143,8 +142,6 @@
                     <div class="aviso-atencao">
                         <strong>Atenção:</strong> Cada pedido participa por um ciclo de 4 semanas. <strong>Não há necessidade de reenviar o nome neste período.</strong>
                     </div>
-                    
-                    <p class="sugestao">Una-se a nós em oração todas as quintas às 19:30.</p>
 
                     <div class="privacy-policy">
                         <input type="checkbox" id="politica" required>
@@ -157,7 +154,7 @@
         </div>
 
         <div id="container-sucesso">
-            <h2>🙏 Pedido enviado!</h2>
+            <h2>🙏 Pedido enviado com sucesso!</h2>
             <p>O nome foi incluído em nossas listas de vibração espiritual.</p>
             <button style="background-color: #007bff; max-width: 250px; margin: 0 auto;" onclick="location.reload()">Fazer outro pedido</button>
         </div>
@@ -166,7 +163,7 @@
     <div id="modal-explicacao" class="modal-overlay">
         <div class="modal-content">
             <h2 style="text-align: center; color: #2E7D32;">O que é o Trabalho de Vibração?</h2>
-            <p style="text-align: justify; line-height: 1.6; font-size: 0.95em;">A Vibração é um processo mental de irradiação fluídica através da prece coletiva, onde direcionamos energias de paz e equilíbrio para todos os necessitados.</p>
+            <p style="text-align: justify; line-height: 1.6; font-size: 0.95em;">A Vibração é um processo mental de irradiação fluídica através da prece coletiva, onde direcionamos energias de paz e equilíbrio.</p>
             <button id="close-modal-explicacao" class="btn-fechar-modal">Fechar</button>
         </div>
     </div>
@@ -194,8 +191,7 @@
         const radios = document.querySelectorAll('input[name="tipo"]');
         radios.forEach(radio => {
             radio.onchange = (e) => {
-                document.getElementById('campos-formulario').classList.remove('hidden');
-                document.getElementById('group-endereco').style.display = e.target.value === 'encarnados' ? 'block' : 'none';
+                document.getElementById('group-endereco').style.visibility = e.target.value === 'encarnados' ? 'visible' : 'hidden';
             };
         });
 
