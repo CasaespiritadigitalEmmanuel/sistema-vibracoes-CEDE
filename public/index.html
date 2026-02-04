@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Vibrações - 48ª EAE Online/Projeto EAE/FDJ</title>
     <style>
-        /* FUNDO DA PÁGINA COM EFEITO FIXO (ROLLING CONTENT) */
+        /* FUNDO GERAL DA PÁGINA COM EFEITO FIXO */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f0f7f0; 
-            background-image: url('https://vibracoes-cede.web.app/fundo.png'); /* Caminho do seu fundo de folhas */
+            background-image: url('/fundo.png'); /* Fundo de folhas */
             background-size: cover; 
             background-position: center center; 
             background-repeat: no-repeat; 
-            background-attachment: fixed; /* RESTAURADO: O fundo fica parado enquanto a página rola */
+            background-attachment: fixed; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -23,17 +23,17 @@
             box-sizing: border-box;
         }
 
-        /* CONTAINER COM TAMANHO TOTAL E MARCA D'ÁGUA */
+        /* CONTAINER PRINCIPAL */
         .container { 
             position: relative;
-            background-color: rgba(255, 255, 255, 0.96); 
-            padding: 35px 25px; 
+            background-color: rgba(255, 255, 255, 0.94); /* Levemente mais transparente para destacar o fundo */
+            padding: 35px 25px 120px 25px; /* Padding inferior (120px) aumentado para dar espaço ao selo */
             border-radius: 15px; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
             text-align: center; 
             width: 100%; 
             max-width: 450px; 
-            min-height: 600px; /* GARANTE O TAMANHO TOTAL SEMPRE */
+            min-height: 600px; 
             border-top: 8px solid #6fbf73; 
             overflow: hidden;
             z-index: 1;
@@ -42,23 +42,33 @@
             justify-content: space-between;
         }
 
-        /* --- POSICIONAMENTO DO ROSTO DE JESUS (NÃO COBERTO) --- */
+        /* --- CONFIGURAÇÃO DAS DUAS IMAGENS SEPARADAS --- */
         .container::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('https://vibracoes-cede.web.app/fundo.png'); /* Imagem do Jesus/Coração Quentinho */
-            background-repeat: no-repeat;
-            /* Empurrado para baixo para o rosto ficar visível abaixo dos títulos */
-            background-position: center 150px; 
-            background-size: 100%; 
-            opacity: 0.70; 
-            filter: contrast(110%);
             z-index: -1;
+
+            /* DEFINIMOS AS DUAS IMAGENS AQUI */
+            background-image: url('/jesus-topo.png'), url('/selo-rodape.png');
+            
+            /* POSIÇÃO: Jesus no topo centralizado, Selo no rodapé centralizado */
+            background-position: center 10px, center bottom 20px;
+            
+            /* TAMANHO: Jesus maior (100% da largura), Selo menor (50% da largura) */
+            background-size: 100% auto, 50% auto;
+            
+            background-repeat: no-repeat, no-repeat;
+            
+            /* OPACIDADE GERAL: Ajuste aqui se quiser mais forte ou mais fraco */
+            opacity: 0.7; 
+            /* Aumenta um pouco o contraste para destacar no branco */
+            filter: contrast(110%);
         }
 
-        h1 { font-size: 1.55em; color: #2e7d32; margin-bottom: 0.2em; font-weight: 700; position: relative; }
-        h2 { font-size: 1.1em; color: #388e3c; margin-top: 0; margin-bottom: 1.5em; position: relative; }
+        /* Tipografia com leve sombra para garantir leitura */
+        h1 { font-size: 1.55em; color: #2e7d32; margin-bottom: 0.2em; font-weight: 700; position: relative; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+        h2 { font-size: 1.1em; color: #388e3c; margin-top: 0; margin-bottom: 1.5em; position: relative; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
         
         .link-explicacao { 
             display: inline-block; 
@@ -68,21 +78,24 @@
             cursor: pointer; 
             text-decoration: underline; 
             position: relative; 
+            background-color: rgba(255,255,255,0.5); /* Fundo semi-transparente para o link */
+            padding: 2px 5px;
+            border-radius: 4px;
         }
 
-        /* BOTÕES CIRCULARES ORIGINAIS */
+        /* Botões Circulares */
         .radio-options { display: flex; justify-content: center; gap: 30px; margin-bottom: 25px; position: relative; }
         .radio-options input[type="radio"] { display: none; }
         .radio-options label { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 700; color: #555; font-size: 0.9em; }
         .radio-visual { width: 80px; height: 80px; border-radius: 50%; background-color: rgba(240, 240, 240, 0.9); border: 3px solid #ddd; margin-bottom: 8px; transition: 0.3s; }
         input[type="radio"]:checked + label .radio-visual { background-color: #dcedc8; border-color: #6fbf73; transform: scale(1.1); }
 
-        /* CAMPOS SEMPRE VISÍVEIS (TAMANHO TOTAL) */
+        /* Campos */
         .form-group { text-align: left; margin-bottom: 15px; position: relative; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 0.95em; }
         .form-group input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1.1em; background: rgba(255,255,255,0.8); }
         
-        /* BANNER DE ATENÇÃO NO FINAL */
+        /* Banner de Atenção */
         .aviso-atencao { 
             background-color: rgba(255, 253, 231, 0.9); 
             border: 1px solid #fff59d; 
@@ -99,10 +112,10 @@
         
         .privacy-policy { display: flex; align-items: flex-start; gap: 8px; text-align: left; font-size: 0.85em; color: #333; margin-bottom: 20px; position: relative; }
         
-        button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; position: relative; }
+        button { width: 100%; padding: 16px; background-color: #388e3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; position: relative; z-index: 2; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; }
 
-        /* ESTILOS DE SUCESSO */
+        /* Sucesso e Modal */
         #container-sucesso { display: none; padding: 20px 0; animation: fadeIn 0.8s; position: relative; }
         #container-sucesso h2 { color: #2e7d32; font-size: 1.8em; }
 
