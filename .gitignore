@@ -1,0 +1,12 @@
+# Ignorar dependências (MUITO IMPORTANTE)
+node_modules/
+functions/node_modules/
+
+# Ignorar arquivos temporários do Firebase
+.firebase/
+*-debug.log
+.firebaserc.cache
+
+# Ignorar arquivos do sistema
+.DS_Store
+Thumbs.db

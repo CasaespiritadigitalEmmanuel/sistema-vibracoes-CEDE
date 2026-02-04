@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - 48ª EAE Online</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 25px; }
+        .header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px auto; }
+        .header h1 { color: #333; }
+        .btn-sair { background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h2 { color: #444; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-top: 40px; }
+        
+        .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background-color: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s; border: 2px solid transparent; }
+        .card:hover { transform: translateY(-5px); }
+        .card .numero { font-size: 2.5em; font-weight: bold; margin: 0; }
+        .card .legenda { font-size: 1.1em; font-weight: bold; margin-top: 5px; }
+        .card .descricao { font-size: 0.9em; color: #555; margin-top: 15px; text-align: center; }
+
+        /* Cores dos Cartões */
+        .card-ativos { background-color: #e3f2fd; border-color: #2196f3; color: #0d47a1; }
+        .card-hoje { background-color: #e8f5e9; border-color: #4caf50; color: #1b5e20; }
+        .card-painel { background-color: #fff3e0; border-color: #ff9800; color: #e65100; }
+        .card-estatisticas { background-color: #f3e5f5; border-color: #9c27b0; color: #4a148c; }
+    </style>
+</head>
+<body>
+    <div id="main-content" style="display: none;">
+        <header class="header">
+            <h1>Dashboard Administrativo</h1>
+            <button id="btn-sair" class="btn-sair">Sair</button>
+        </header>
+
+        <div class="container">
+            <h2>Resumo do Dia</h2>
+            <div class="cards-container">
+                <div class="card card-ativos">
+                    <p id="total-ativos" class="numero">...</p>
+                    <p class="legenda">Nomes Ativos Agora</p>
+                </div>
+                <div class="card card-hoje">
+                    <p id="pedidos-hoje" class="numero">...</p>
+                    <p class="legenda">Novos Pedidos Hoje</p>
+                </div>
+            </div>
+
+            <h2>Ferramentas de Trabalho</h2>
+            <div class="cards-container">
+                <a href="/painel.html" target="_blank" class="card card-painel">
+                    <p class="legenda">📺 Abrir Painel de Vibrações</p>
+                    <p class="descricao">Exibe os nomes no monitor para o trabalho mediúnico (abre em nova aba).</p>
+                </a>
+                <a href="/estatisticas.html" target="_blank" class="card card-estatisticas">
+                    <p class="legenda">📊 Ver Estatísticas</p>
+                    <p class="descricao">Gráficos mensais e evolução do trabalho espiritual.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { protegerPagina, fazerLogout } from '/auth.js';
+
+        protegerPagina()
+            .then(() => {
+                document.getElementById('main-content').style.display = 'block';
+                carregarDadosDashboard();
+                document.getElementById('btn-sair').addEventListener('click', () => {
+                    fazerLogout().then(() => { window.location.href = '/login.html'; });
+                });
+            });
+
+        async function carregarDadosDashboard() {
+            try {
+                const db = getFirestore();
+                const docSnap = await getDoc(doc(db, "estatisticas", "resumo"));
+                if (docSnap.exists()) {
+                    const dados = docSnap.data();
+                    document.getElementById('total-ativos').textContent = dados.totalAtivos || 0;
+                    document.getElementById('pedidos-hoje').textContent = dados.pedidosHoje || 0;
+                }
+            } catch (e) { console.error(e); }
+        }
+    </script>
+</body>
+</html>

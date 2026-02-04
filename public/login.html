@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - 48ª EAE Online</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; border-top: 5px solid #388e3c; }
+        .login-card h1 { margin-bottom: 10px; color: #2e7d32; font-size: 1.8em; }
+        .login-card p { color: #666; margin-bottom: 25px; font-size: 0.9em; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background-color: #388e3c; color: white; border: none; border-radius: 5px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        button:hover { background-color: #2e7d32; }
+        #error-message { color: #d32f2f; margin-top: 15px; display: none; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>CEDE</h1>
+        <p>Acesso ao Painel Administrativo</p>
+        <form id="form-login">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="••••••••" required>
+            </div>
+            <button type="submit" id="btn-entrar">Entrar</button>
+        </form>
+        <p id="error-message"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { fazerLogin } from '/auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
+            authDomain: "vibracoes-cede.firebaseapp.com",
+            projectId: "vibracoes-cede",
+            storageBucket: "vibracoes-cede.firebasestorage.app",
+            messagingSenderId: "1081610853181",
+            appId: "1:1081610853181:web:b10eb65f1506d141684354"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Se já estiver logado, vai direto para o dashboard
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = '/dashboard.html';
+            }
+        });
+
+        const formLogin = document.getElementById('form-login');
+        const emailInput = document.getElementById('email');
+        const senhaInput = document.getElementById('senha');
+        const errorMessage = document.getElementById('error-message');
+        const btnEntrar = document.getElementById('btn-entrar');
+
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            btnEntrar.disabled = true;
+            btnEntrar.textContent = 'Verificando...';
+            errorMessage.style.display = 'none';
+
+            const email = emailInput.value;
+            const senha = senhaInput.value;
+
+            fazerLogin(email, senha)
+                .then(() => {
+                    window.location.href = '/dashboard.html';
+                })
+                .catch(error => {
+                    console.error("Erro de login:", error);
+                    errorMessage.textContent = 'Acesso negado. Verifique email e senha.';
+                    errorMessage.style.display = 'block';
+                    btnEntrar.disabled = false;
+                    btnEntrar.textContent = 'Entrar';
+                });
+        });
+    </script>
+</body>
+</html>

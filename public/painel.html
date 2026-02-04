@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Vibrações - 48ª EAE Online</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0a192f;
+            color: #cdd6f4;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden; 
+        }
+        .painel-container {
+            width: 100%;
+            height: calc(100vh - 40px);
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #1e3a5f;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            position: relative;
+        }
+        header h1 { color: #88c0d0; margin: 0; font-size: 2.2em; }
+        header h2 { color: #cdd6f4; margin: 5px 0 0 0; font-size: 1.1em; font-weight: normal; }
+        
+        /* Botões do Topo */
+        .btn-header {
+            position: absolute;
+            top: 0;
+            padding: 10px 15px;
+            font-size: 1em;
+            background-color: #1e3a5f;
+            color: #88c0d0;
+            border: 1px solid #88c0d0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-header:hover {
+            background-color: #88c0d0;
+            color: #112240;
+        }
+        .btn-voltar { left: 0; }
+        .btn-imprimir { right: 0; }
+
+        .listas-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-grow: 1; 
+            overflow: hidden;
+        }
+        .lista-coluna {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #112240;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #1e3a5f;
+            min-width: 400px;
+        }
+        .lista-coluna h3 {
+            text-align: center;
+            font-size: 1.8em;
+            color: #88c0d0;
+            margin-top: 0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        
+        .carousel-container {
+            flex-grow: 1;
+            overflow-y: hidden;
+            position: relative;
+        }
+        .lista-nomes {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.3em;
+            line-height: 1.8;
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            visibility: hidden;
+        }
+        .lista-nomes.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lista-nomes li { padding: 2px 0; }
+        .endereco {
+            font-size: 0.8em;
+            color: #82a3c1;
+            padding-left: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content" class="painel-container">
+        <header>
+            <a href="/dashboard.html" class="btn-header btn-voltar">⬅ Voltar</a>
+            
+            <h1>Trabalho de Vibrações</h1>
+            <h2>48ª Escola de Aprendizes do Evangelho Online</h2>
+            
+            <button id="btn-imprimir" class="btn-header btn-imprimir">🖨️ Imprimir Listas</button>
+        </header>
+        <div class="listas-container">
+            <div class="lista-coluna">
+                <h3>Encarnados</h3>
+                <div id="carousel-encarnados" class="carousel-container">
+                    <div id="loading-encarnados">Aguardando...</div>
+                </div>
+            </div>
+            <div class="lista-coluna">
+                <h3>Desencarnados</h3>
+                <div id="carousel-desencarnados" class="carousel-container">
+                    <div id="loading-desencarnados">Aguardando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, query, where, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuYdERX224x0dzWtFH0mi__oVH3DxsmP0",
+            authDomain: "vibracoes-cede.firebaseapp.com",
+            projectId: "vibracoes-cede",
+            storageBucket: "vibracoes-cede.firebasestorage.app",
+            messagingSenderId: "1081610853181",
+            appId: "1:1081610853181:web:b10eb65f1506d141684354"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        document.addEventListener('DOMContentLoaded', () => {
+             inicializarPainel();
+        });
+
+        function inicializarPainel() {
+            escutarLista('encarnados', 'carousel-encarnados');
+            escutarLista('desencarnados', 'carousel-desencarnados');
+
+            document.getElementById('btn-imprimir').addEventListener('click', imprimirListas);
+
+            function escutarLista(nomeColecao, idCarousel) {
+                const q = query(collection(db, nomeColecao), where("status", "==", "ativo"));
+                onSnapshot(q, (snapshot) => {
+                    const nomes = snapshot.docs.map(doc => doc.data());
+                    renderizarLista(nomes, idCarousel);
+                }, (error) => {
+                    console.error(`Erro ao escutar ${nomeColecao}: `, error);
+                });
+            }
+
+            function renderizarLista(nomes, idCarousel) {
+                const carouselContainer = document.getElementById(idCarousel);
+                carouselContainer.innerHTML = ''; 
+                if (nomes.length === 0) {
+                    carouselContainer.innerHTML = '<ul class="lista-nomes active"><li>Aguardando novos pedidos...</li></ul>';
+                    return;
+                }
+                const NOMES_POR_PAGINA = 8;
+                nomes.sort((a, b) => a.nome.localeCompare(b.nome));
+                for (let i = 0; i < nomes.length; i += NOMES_POR_PAGINA) {
+                    const chunk = nomes.slice(i, i + NOMES_POR_PAGINA);
+                    const ul = document.createElement('ul');
+                    ul.className = 'lista-nomes';
+                    chunk.forEach(dados => {
+                        const li = document.createElement('li');
+                        li.textContent = dados.nome;
+                        if (dados.endereco) {
+                            const small = document.createElement('div');
+                            small.className = 'endereco';
+                            small.textContent = `(${dados.endereco})`;
+                            li.appendChild(small);
+                        }
+                        ul.appendChild(li);
+                    });
+                    carouselContainer.appendChild(ul);
+                }
+                iniciarCarousel(idCarousel);
+            }
+
+            function iniciarCarousel(carouselId) {
+                const container = document.getElementById(carouselId);
+                const paginas = container.getElementsByClassName('lista-nomes');
+                if (paginas.length <= 1) {
+                    if (paginas.length === 1) paginas[0].classList.add('active');
+                    return; 
+                }
+                let paginaAtual = 0;
+                paginas[paginaAtual].classList.add('active');
+                if (container.dataset.carouselIntervalId) clearInterval(parseInt(container.dataset.carouselIntervalId));
+                const intervalId = setInterval(() => {
+                    if(paginas[paginaAtual]) paginas[paginaAtual].classList.remove('active');
+                    paginaAtual = (paginaAtual + 1) % paginas.length;
+                    if(paginas[paginaAtual]) paginas[paginaAtual].classList.add('active');
+                }, 15000); 
+                container.dataset.carouselIntervalId = intervalId;
+            }
+            
+            async function imprimirListas() {
+                try {
+                    const qEncarnados = query(collection(db, "encarnados"), where("status", "==", "ativo"));
+                    const qDesencarnados = query(collection(db, "desencarnados"), where("status", "==", "ativo"));
+                    const [encSnapshot, desSnapshot] = await Promise.all([getDocs(qEncarnados), getDocs(qDesencarnados)]);
+                    const encarnados = encSnapshot.docs.map(doc => doc.data()).sort((a, b) => a.nome.localeCompare(b.nome));
+                    const desencarnados = desSnapshot.docs.map(doc => doc.data()).sort((a, b) => a.nome.localeCompare(b.nome));
+                    const dataHoje = new Date().toLocaleDateString('pt-BR');
+                    let html = `<html><head><title>Lista - ${dataHoje}</title><style>body{font-family:sans-serif;margin:20px;}h1{text-align:center;}.colunas{display:flex;gap:30px;}.coluna{flex:1;}ul{list-style:none;padding:0;}li{padding:4px 0;}.endereco{font-size:0.9em;color:#666;padding-left:15px;}</style></head><body><h1>Lista de Vibrações - ${dataHoje}</h1><div class="colunas"><div class="coluna"><h2>Encarnados</h2><ul>${encarnados.map(d=>`<li>${d.nome}${d.endereco?`<div class="endereco">(${d.endereco})</div>`:''}</li>`).join('')}</ul></div><div class="coluna"><h2>Desencarnados</h2><ul>${desencarnados.map(d=>`<li>${d.nome}</li>`).join('')}</ul></div></div></body></html>`;
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write(html);
+                    printWindow.document.close();
+                    printWindow.print();
+                } catch (e) { alert("Erro ao imprimir."); }
+            }
+        }
+    </script>
+</body>
+</html>
