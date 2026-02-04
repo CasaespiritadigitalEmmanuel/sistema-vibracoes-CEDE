@@ -38,18 +38,17 @@
             z-index: 1;
         }
 
-        /* --- TÉCNICA DA MARCA D'ÁGUA (JESUS E CORAÇÃO QUENTINHO) --- */
+        /* --- TÉCNICA DA MARCA D'ÁGUA (JESUS E CORAÇÃO QUENTINHO BEM VISÍVEL) --- */
         .container::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            /* Caminho da imagem conforme seu projeto */
             background-image: url('/fundo.png'); 
             background-repeat: no-repeat;
-            background-position: center 20px; /* Ajustado para o topo como na imagem */
-            background-size: 90%; /* Tamanho grande para cobrir o fundo do texto */
-            opacity: 0.25; /* Deixa a imagem suave para não atrapalhar a leitura */
-            z-index: -1; /* Coloca a imagem atrás de todo o texto */
+            background-position: center 20px; 
+            background-size: 90%; 
+            opacity: 0.60; /* Opacidade aumentada para maior visibilidade conforme solicitado */
+            z-index: -1; 
         }
 
         /* TIPOGRAFIA E ELEMENTOS VISUAIS */
